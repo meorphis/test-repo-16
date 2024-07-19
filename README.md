@@ -1,6 +1,6 @@
 # Meorphis Test 40 Python API library
 
-[![PyPI version](https://img.shields.io/pypi/v/meorphis-test-40.svg)](https://pypi.org/project/meorphis-test-40/)
+[![PyPI version](https://img.shields.io/pypi/v/meorphis_test_40.svg)](https://pypi.org/project/meorphis_test_40/)
 
 The Meorphis Test 40 Python library provides convenient access to the Meorphis Test 40 REST API from any Python 3.7+
 application. The library includes type definitions for all request params and response fields,
@@ -10,17 +10,17 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Documentation
 
-The REST API documentation can be found [on help.bolt.com](https://help.bolt.com/api-bolt/). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.meorphis-test-40.com](https://docs.meorphis-test-40.com). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
 ```sh
-# install from the production repo
-pip install git+ssh://git@github.com/meorphis/test-repo.git
+# install from this staging repo
+pip install git+ssh://git@github.com/stainless-sdks/meorphis-test-40-python.git
 ```
 
 > [!NOTE]
-> Once this package is [published to PyPI](https://app.stainlessapi.com/docs/guides/publish), this will become: `pip install --pre meorphis-test-40`
+> Once this package is [published to PyPI](https://app.stainlessapi.com/docs/guides/publish), this will become: `pip install --pre meorphis_test_40`
 
 ## Usage
 
@@ -32,11 +32,12 @@ from meorphis_test_40 import MeorphisTest40
 client = MeorphisTest40(
     # defaults to "production".
     environment="environment_1",
-    api_key="My API Key",
 )
 
-account_account_get_response = client.accounts.account_get()
-print(account_account_get_response.addresses)
+card = client.cards.create(
+    type="REPLACE_ME",
+)
+print(card.token)
 ```
 
 ## Async usage
@@ -50,13 +51,14 @@ from meorphis_test_40 import AsyncMeorphisTest40
 client = AsyncMeorphisTest40(
     # defaults to "production".
     environment="environment_1",
-    api_key="My API Key",
 )
 
 
 async def main() -> None:
-    account_account_get_response = await client.accounts.account_get()
-    print(account_account_get_response.addresses)
+    card = await client.cards.create(
+        type="REPLACE_ME",
+    )
+    print(card.token)
 
 
 asyncio.run(main())
@@ -86,12 +88,12 @@ All errors inherit from `meorphis_test_40.APIError`.
 import meorphis_test_40
 from meorphis_test_40 import MeorphisTest40
 
-client = MeorphisTest40(
-    api_key="My API Key",
-)
+client = MeorphisTest40()
 
 try:
-    client.accounts.account_get()
+    client.cards.create(
+        type="REPLACE_ME",
+    )
 except meorphis_test_40.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -131,11 +133,12 @@ from meorphis_test_40 import MeorphisTest40
 client = MeorphisTest40(
     # default is 2
     max_retries=0,
-    api_key="My API Key",
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).accounts.account_get()
+client.with_options(max_retries=5).cards.create(
+    type="REPLACE_ME",
+)
 ```
 
 ### Timeouts
@@ -150,17 +153,17 @@ from meorphis_test_40 import MeorphisTest40
 client = MeorphisTest40(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
-    api_key="My API Key",
 )
 
 # More granular control:
 client = MeorphisTest40(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
-    api_key="My API Key",
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).accounts.account_get()
+client.with_options(timeout=5.0).cards.create(
+    type="REPLACE_ME",
+)
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -198,19 +201,19 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 ```py
 from meorphis_test_40 import MeorphisTest40
 
-client = MeorphisTest40(
-    api_key="My API Key",
+client = MeorphisTest40()
+response = client.cards.with_raw_response.create(
+    type="REPLACE_ME",
 )
-response = client.accounts.with_raw_response.account_get()
 print(response.headers.get('X-My-Header'))
 
-account = response.parse()  # get the object that `accounts.account_get()` would have returned
-print(account.addresses)
+card = response.parse()  # get the object that `cards.create()` would have returned
+print(card.token)
 ```
 
-These methods return an [`APIResponse`](https://github.com/meorphis/test-repo/tree/main/src/meorphis_test_40/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/stainless-sdks/meorphis-test-40-python/tree/main/src/meorphis_test_40/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/meorphis/test-repo/tree/main/src/meorphis_test_40/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/meorphis-test-40-python/tree/main/src/meorphis_test_40/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -219,7 +222,9 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.accounts.with_streaming_response.account_get() as response:
+with client.cards.with_streaming_response.create(
+    type="REPLACE_ME",
+) as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
@@ -269,7 +274,7 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 
 - Support for proxies
 - Custom transports
-- Additional [advanced](https://www.python-httpx.org/advanced/#client-instances) functionality
+- Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
 
 ```python
 from meorphis_test_40 import MeorphisTest40, DefaultHttpxClient
@@ -281,8 +286,13 @@ client = MeorphisTest40(
         proxies="http://my.test.proxy.example.com",
         transport=httpx.HTTPTransport(local_address="0.0.0.0"),
     ),
-    api_key="My API Key",
 )
+```
+
+You can also customize the client on a per-request basis by using `with_options()`:
+
+```python
+client.with_options(http_client=DefaultHttpxClient(...))
 ```
 
 ### Managing HTTP resources
@@ -299,7 +309,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/meorphis/test-repo/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/meorphis-test-40-python/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 

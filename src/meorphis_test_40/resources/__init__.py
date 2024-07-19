@@ -1,12 +1,20 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .guests import (
-    GuestsResource,
-    AsyncGuestsResource,
-    GuestsResourceWithRawResponse,
-    AsyncGuestsResourceWithRawResponse,
-    GuestsResourceWithStreamingResponse,
-    AsyncGuestsResourceWithStreamingResponse,
+from .cards import (
+    CardsResource,
+    AsyncCardsResource,
+    CardsResourceWithRawResponse,
+    AsyncCardsResourceWithRawResponse,
+    CardsResourceWithStreamingResponse,
+    AsyncCardsResourceWithStreamingResponse,
+)
+from .status import (
+    StatusResource,
+    AsyncStatusResource,
+    StatusResourceWithRawResponse,
+    AsyncStatusResourceWithRawResponse,
+    StatusResourceWithStreamingResponse,
+    AsyncStatusResourceWithStreamingResponse,
 )
 from .accounts import (
     AccountsResource,
@@ -16,38 +24,6 @@ from .accounts import (
     AccountsResourceWithStreamingResponse,
     AsyncAccountsResourceWithStreamingResponse,
 )
-from .payments import (
-    PaymentsResource,
-    AsyncPaymentsResource,
-    PaymentsResourceWithRawResponse,
-    AsyncPaymentsResourceWithRawResponse,
-    PaymentsResourceWithStreamingResponse,
-    AsyncPaymentsResourceWithStreamingResponse,
-)
-from .testings import (
-    TestingsResource,
-    AsyncTestingsResource,
-    TestingsResourceWithRawResponse,
-    AsyncTestingsResourceWithRawResponse,
-    TestingsResourceWithStreamingResponse,
-    AsyncTestingsResourceWithStreamingResponse,
-)
-from .webhooks import (
-    WebhooksResource,
-    AsyncWebhooksResource,
-    WebhooksResourceWithRawResponse,
-    AsyncWebhooksResourceWithRawResponse,
-    WebhooksResourceWithStreamingResponse,
-    AsyncWebhooksResourceWithStreamingResponse,
-)
-from .merchants import (
-    MerchantsResource,
-    AsyncMerchantsResource,
-    MerchantsResourceWithRawResponse,
-    AsyncMerchantsResourceWithRawResponse,
-    MerchantsResourceWithStreamingResponse,
-    AsyncMerchantsResourceWithStreamingResponse,
-)
 
 __all__ = [
     "AccountsResource",
@@ -56,34 +32,16 @@ __all__ = [
     "AsyncAccountsResourceWithRawResponse",
     "AccountsResourceWithStreamingResponse",
     "AsyncAccountsResourceWithStreamingResponse",
-    "PaymentsResource",
-    "AsyncPaymentsResource",
-    "PaymentsResourceWithRawResponse",
-    "AsyncPaymentsResourceWithRawResponse",
-    "PaymentsResourceWithStreamingResponse",
-    "AsyncPaymentsResourceWithStreamingResponse",
-    "GuestsResource",
-    "AsyncGuestsResource",
-    "GuestsResourceWithRawResponse",
-    "AsyncGuestsResourceWithRawResponse",
-    "GuestsResourceWithStreamingResponse",
-    "AsyncGuestsResourceWithStreamingResponse",
-    "MerchantsResource",
-    "AsyncMerchantsResource",
-    "MerchantsResourceWithRawResponse",
-    "AsyncMerchantsResourceWithRawResponse",
-    "MerchantsResourceWithStreamingResponse",
-    "AsyncMerchantsResourceWithStreamingResponse",
-    "WebhooksResource",
-    "AsyncWebhooksResource",
-    "WebhooksResourceWithRawResponse",
-    "AsyncWebhooksResourceWithRawResponse",
-    "WebhooksResourceWithStreamingResponse",
-    "AsyncWebhooksResourceWithStreamingResponse",
-    "TestingsResource",
-    "AsyncTestingsResource",
-    "TestingsResourceWithRawResponse",
-    "AsyncTestingsResourceWithRawResponse",
-    "TestingsResourceWithStreamingResponse",
-    "AsyncTestingsResourceWithStreamingResponse",
+    "CardsResource",
+    "AsyncCardsResource",
+    "CardsResourceWithRawResponse",
+    "AsyncCardsResourceWithRawResponse",
+    "CardsResourceWithStreamingResponse",
+    "AsyncCardsResourceWithStreamingResponse",
+    "StatusResource",
+    "AsyncStatusResource",
+    "StatusResourceWithRawResponse",
+    "AsyncStatusResourceWithRawResponse",
+    "StatusResourceWithStreamingResponse",
+    "AsyncStatusResourceWithStreamingResponse",
 ]

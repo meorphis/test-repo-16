@@ -2,7 +2,7 @@
 
 ### With Rye
 
-We use [Rye](https://rye-up.com/) to manage dependencies so we highly recommend [installing it](https://rye-up.com/guide/installation/) as it will automatically provision a Python environment with the expected Python version.
+We use [Rye](https://rye.astral.sh/) to manage dependencies so we highly recommend [installing it](https://rye.astral.sh/guide/installation/) as it will automatically provision a Python environment with the expected Python version.
 
 After installing Rye, you'll just have to run this command:
 
@@ -59,7 +59,7 @@ If you’d like to use the repository from source, you can either install from g
 To install via git:
 
 ```bash
-pip install git+ssh://git@github.com/meorphis/test-repo.git
+pip install git+ssh://git@github.com/stainless-sdks/meorphis-test-40-python.git
 ```
 
 Alternatively, you can build from source and install the wheel file:
@@ -117,7 +117,7 @@ the changes aren't made through the automated pipeline, you may want to make rel
 
 ### Publish with a GitHub workflow
 
-You can release to package managers by using [the `Publish PyPI` GitHub action](https://www.github.com/meorphis/test-repo/actions/workflows/publish-pypi.yml). This requires a setup organization or repository secret to be set up.
+You can release to package managers by using [the `Publish PyPI` GitHub action](https://www.github.com/stainless-sdks/meorphis-test-40-python/actions/workflows/publish-pypi.yml). This requires a setup organization or repository secret to be set up.
 
 ### Publish manually
 

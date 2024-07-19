@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from meorphis_test_40 import MeorphisTest40, AsyncMeorphisTest40
-from meorphis_test_40.types import AccountAccountGetResponse
+from meorphis_test_40.types import AccountConfiguration
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -18,55 +18,195 @@ class TestAccounts:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_account_get(self, client: MeorphisTest40) -> None:
-        account = client.accounts.account_get()
-        assert_matches_type(AccountAccountGetResponse, account, path=["response"])
+    def test_method_retrieve(self, client: MeorphisTest40) -> None:
+        account = client.accounts.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(AccountConfiguration, account, path=["response"])
 
     @parametrize
-    def test_raw_response_account_get(self, client: MeorphisTest40) -> None:
-        response = client.accounts.with_raw_response.account_get()
+    def test_raw_response_retrieve(self, client: MeorphisTest40) -> None:
+        response = client.accounts.with_raw_response.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         account = response.parse()
-        assert_matches_type(AccountAccountGetResponse, account, path=["response"])
+        assert_matches_type(AccountConfiguration, account, path=["response"])
 
     @parametrize
-    def test_streaming_response_account_get(self, client: MeorphisTest40) -> None:
-        with client.accounts.with_streaming_response.account_get() as response:
+    def test_streaming_response_retrieve(self, client: MeorphisTest40) -> None:
+        with client.accounts.with_streaming_response.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             account = response.parse()
-            assert_matches_type(AccountAccountGetResponse, account, path=["response"])
+            assert_matches_type(AccountConfiguration, account, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_retrieve(self, client: MeorphisTest40) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `account_token` but received ''"):
+            client.accounts.with_raw_response.retrieve(
+                "",
+            )
+
+    @parametrize
+    def test_method_update(self, client: MeorphisTest40) -> None:
+        account = client.accounts.update(
+            account_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(AccountConfiguration, account, path=["response"])
+
+    @parametrize
+    def test_method_update_with_all_params(self, client: MeorphisTest40) -> None:
+        account = client.accounts.update(
+            account_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            daily_spend_limit=1000,
+            lifetime_spend_limit=0,
+            monthly_spend_limit=0,
+            state="ACTIVE",
+            verification_address={
+                "address1": "address1",
+                "address2": "address2",
+                "city": "city",
+                "state": "state",
+                "postal_code": "postal_code",
+                "country": "country",
+            },
+        )
+        assert_matches_type(AccountConfiguration, account, path=["response"])
+
+    @parametrize
+    def test_raw_response_update(self, client: MeorphisTest40) -> None:
+        response = client.accounts.with_raw_response.update(
+            account_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        account = response.parse()
+        assert_matches_type(AccountConfiguration, account, path=["response"])
+
+    @parametrize
+    def test_streaming_response_update(self, client: MeorphisTest40) -> None:
+        with client.accounts.with_streaming_response.update(
+            account_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            account = response.parse()
+            assert_matches_type(AccountConfiguration, account, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_update(self, client: MeorphisTest40) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `account_token` but received ''"):
+            client.accounts.with_raw_response.update(
+                account_token="",
+            )
 
 
 class TestAsyncAccounts:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    async def test_method_account_get(self, async_client: AsyncMeorphisTest40) -> None:
-        account = await async_client.accounts.account_get()
-        assert_matches_type(AccountAccountGetResponse, account, path=["response"])
+    async def test_method_retrieve(self, async_client: AsyncMeorphisTest40) -> None:
+        account = await async_client.accounts.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(AccountConfiguration, account, path=["response"])
 
     @parametrize
-    async def test_raw_response_account_get(self, async_client: AsyncMeorphisTest40) -> None:
-        response = await async_client.accounts.with_raw_response.account_get()
+    async def test_raw_response_retrieve(self, async_client: AsyncMeorphisTest40) -> None:
+        response = await async_client.accounts.with_raw_response.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         account = await response.parse()
-        assert_matches_type(AccountAccountGetResponse, account, path=["response"])
+        assert_matches_type(AccountConfiguration, account, path=["response"])
 
     @parametrize
-    async def test_streaming_response_account_get(self, async_client: AsyncMeorphisTest40) -> None:
-        async with async_client.accounts.with_streaming_response.account_get() as response:
+    async def test_streaming_response_retrieve(self, async_client: AsyncMeorphisTest40) -> None:
+        async with async_client.accounts.with_streaming_response.retrieve(
+            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             account = await response.parse()
-            assert_matches_type(AccountAccountGetResponse, account, path=["response"])
+            assert_matches_type(AccountConfiguration, account, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_retrieve(self, async_client: AsyncMeorphisTest40) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `account_token` but received ''"):
+            await async_client.accounts.with_raw_response.retrieve(
+                "",
+            )
+
+    @parametrize
+    async def test_method_update(self, async_client: AsyncMeorphisTest40) -> None:
+        account = await async_client.accounts.update(
+            account_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+        assert_matches_type(AccountConfiguration, account, path=["response"])
+
+    @parametrize
+    async def test_method_update_with_all_params(self, async_client: AsyncMeorphisTest40) -> None:
+        account = await async_client.accounts.update(
+            account_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            daily_spend_limit=1000,
+            lifetime_spend_limit=0,
+            monthly_spend_limit=0,
+            state="ACTIVE",
+            verification_address={
+                "address1": "address1",
+                "address2": "address2",
+                "city": "city",
+                "state": "state",
+                "postal_code": "postal_code",
+                "country": "country",
+            },
+        )
+        assert_matches_type(AccountConfiguration, account, path=["response"])
+
+    @parametrize
+    async def test_raw_response_update(self, async_client: AsyncMeorphisTest40) -> None:
+        response = await async_client.accounts.with_raw_response.update(
+            account_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        account = await response.parse()
+        assert_matches_type(AccountConfiguration, account, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_update(self, async_client: AsyncMeorphisTest40) -> None:
+        async with async_client.accounts.with_streaming_response.update(
+            account_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            account = await response.parse()
+            assert_matches_type(AccountConfiguration, account, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_update(self, async_client: AsyncMeorphisTest40) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `account_token` but received ''"):
+            await async_client.accounts.with_raw_response.update(
+                account_token="",
+            )

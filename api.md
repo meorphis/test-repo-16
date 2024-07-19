@@ -3,152 +3,62 @@
 Types:
 
 ```python
-from meorphis_test_40.types import AccountAccountGetResponse
+from meorphis_test_40.types import AccountConfiguration
 ```
 
 Methods:
 
-- <code title="get /account">client.accounts.<a href="./src/meorphis_test_40/resources/accounts/accounts.py">account_get</a>() -> <a href="./src/meorphis_test_40/types/account_account_get_response.py">AccountAccountGetResponse</a></code>
+- <code title="get /accounts/{account_token}">client.accounts.<a href="./src/meorphis_test_40/resources/accounts/accounts.py">retrieve</a>(account_token) -> <a href="./src/meorphis_test_40/types/account_configuration.py">AccountConfiguration</a></code>
+- <code title="patch /accounts/{account_token}">client.accounts.<a href="./src/meorphis_test_40/resources/accounts/accounts.py">update</a>(account_token, \*\*<a href="src/meorphis_test_40/types/account_update_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/account_configuration.py">AccountConfiguration</a></code>
 
-## Addresses
+## CreditConfiguration
 
 Types:
 
 ```python
-from meorphis_test_40.types.accounts import (
-    AddressUpdateResponse,
-    AddressAccountAddressCreateResponse,
-)
+from meorphis_test_40.types.accounts import BusinessAccount
 ```
 
 Methods:
 
-- <code title="put /account/addresses/{id}">client.accounts.addresses.<a href="./src/meorphis_test_40/resources/accounts/addresses.py">update</a>(id, \*\*<a href="src/meorphis_test_40/types/accounts/address_update_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/accounts/address_update_response.py">AddressUpdateResponse</a></code>
-- <code title="delete /account/addresses/{id}">client.accounts.addresses.<a href="./src/meorphis_test_40/resources/accounts/addresses.py">delete</a>(id) -> None</code>
-- <code title="post /account/addresses">client.accounts.addresses.<a href="./src/meorphis_test_40/resources/accounts/addresses.py">account_address_create</a>(\*\*<a href="src/meorphis_test_40/types/accounts/address_account_address_create_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/accounts/address_account_address_create_response.py">AddressAccountAddressCreateResponse</a></code>
+- <code title="get /accounts/{account_token}/credit_configuration">client.accounts.credit_configuration.<a href="./src/meorphis_test_40/resources/accounts/credit_configuration.py">retrieve</a>(account_token) -> <a href="./src/meorphis_test_40/types/accounts/business_account.py">BusinessAccount</a></code>
+- <code title="patch /accounts/{account_token}/credit_configuration">client.accounts.credit_configuration.<a href="./src/meorphis_test_40/resources/accounts/credit_configuration.py">update</a>(account_token, \*\*<a href="src/meorphis_test_40/types/accounts/credit_configuration_update_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/accounts/business_account.py">BusinessAccount</a></code>
 
-## Exists
-
-Methods:
-
-- <code title="get /account/exists">client.accounts.exists.<a href="./src/meorphis_test_40/resources/accounts/exists.py">list</a>(\*\*<a href="src/meorphis_test_40/types/accounts/exist_list_params.py">params</a>) -> None</code>
-
-## PaymentMethods
+# Cards
 
 Types:
 
 ```python
-from meorphis_test_40.types.accounts import PaymentMethodAccountAddPaymentMethodResponse
+from meorphis_test_40.types import Card, CardProvisionResponse
 ```
 
 Methods:
 
-- <code title="delete /account/payment-methods/{id}">client.accounts.payment_methods.<a href="./src/meorphis_test_40/resources/accounts/payment_methods.py">delete</a>(id) -> None</code>
-- <code title="post /account/payment-methods">client.accounts.payment_methods.<a href="./src/meorphis_test_40/resources/accounts/payment_methods.py">account_add_payment_method</a>(\*\*<a href="src/meorphis_test_40/types/accounts/payment_method_account_add_payment_method_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/accounts/payment_method_account_add_payment_method_response.py">PaymentMethodAccountAddPaymentMethodResponse</a></code>
+- <code title="post /cards">client.cards.<a href="./src/meorphis_test_40/resources/cards/cards.py">create</a>(\*\*<a href="src/meorphis_test_40/types/card_create_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/card.py">Card</a></code>
+- <code title="get /cards/{card_token}">client.cards.<a href="./src/meorphis_test_40/resources/cards/cards.py">retrieve</a>(card_token) -> <a href="./src/meorphis_test_40/types/card.py">Card</a></code>
+- <code title="patch /cards/{card_token}">client.cards.<a href="./src/meorphis_test_40/resources/cards/cards.py">update</a>(card_token, \*\*<a href="src/meorphis_test_40/types/card_update_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/card.py">Card</a></code>
+- <code title="post /cards/{card_token}/provision">client.cards.<a href="./src/meorphis_test_40/resources/cards/cards.py">provision</a>(card_token, \*\*<a href="src/meorphis_test_40/types/card_provision_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/card_provision_response.py">CardProvisionResponse</a></code>
 
-# Payments
+## FinancialTransactions
 
 Types:
 
 ```python
-from meorphis_test_40.types import PaymentCreateResponse
+from meorphis_test_40.types.cards import FinancialTransaction
 ```
 
 Methods:
 
-- <code title="post /payments">client.payments.<a href="./src/meorphis_test_40/resources/payments.py">create</a>(\*\*<a href="src/meorphis_test_40/types/payment_create_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/payment_create_response.py">PaymentCreateResponse</a></code>
+- <code title="get /cards/{card_token}/financial_transactions/{financial_transaction_token}">client.cards.financial_transactions.<a href="./src/meorphis_test_40/resources/cards/financial_transactions.py">retrieve</a>(financial_transaction_token, \*, card_token) -> <a href="./src/meorphis_test_40/types/cards/financial_transaction.py">FinancialTransaction</a></code>
 
-# Guests
-
-## Payments
+# Status
 
 Types:
 
 ```python
-from meorphis_test_40.types.guests import PaymentGuestPaymentsInitializeResponse
+from meorphis_test_40.types import StatusListResponse
 ```
 
 Methods:
 
-- <code title="post /guest/payments">client.guests.payments.<a href="./src/meorphis_test_40/resources/guests/payments.py">guest_payments_initialize</a>(\*\*<a href="src/meorphis_test_40/types/guests/payment_guest_payments_initialize_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/guests/payment_guest_payments_initialize_response.py">PaymentGuestPaymentsInitializeResponse</a></code>
-
-# Merchants
-
-## Callbacks
-
-Types:
-
-```python
-from meorphis_test_40.types.merchants import (
-    CallbackListResponse,
-    CallbackMerchantCallbacksUpdateResponse,
-)
-```
-
-Methods:
-
-- <code title="get /merchant/callbacks">client.merchants.callbacks.<a href="./src/meorphis_test_40/resources/merchants/callbacks.py">list</a>() -> <a href="./src/meorphis_test_40/types/merchants/callback_list_response.py">CallbackListResponse</a></code>
-- <code title="patch /merchant/callbacks">client.merchants.callbacks.<a href="./src/meorphis_test_40/resources/merchants/callbacks.py">merchant_callbacks_update</a>(\*\*<a href="src/meorphis_test_40/types/merchants/callback_merchant_callbacks_update_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/merchants/callback_merchant_callbacks_update_response.py">CallbackMerchantCallbacksUpdateResponse</a></code>
-
-## Identifiers
-
-Types:
-
-```python
-from meorphis_test_40.types.merchants import IdentifierListResponse
-```
-
-Methods:
-
-- <code title="get /merchant/identifiers">client.merchants.identifiers.<a href="./src/meorphis_test_40/resources/merchants/identifiers.py">list</a>() -> <a href="./src/meorphis_test_40/types/merchants/identifier_list_response.py">IdentifierListResponse</a></code>
-
-# Webhooks
-
-Types:
-
-```python
-from meorphis_test_40.types import (
-    WebhookCreateResponse,
-    WebhookRetrieveResponse,
-    WebhookListResponse,
-)
-```
-
-Methods:
-
-- <code title="put /webhooks">client.webhooks.<a href="./src/meorphis_test_40/resources/webhooks.py">create</a>(\*\*<a href="src/meorphis_test_40/types/webhook_create_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/webhook_create_response.py">WebhookCreateResponse</a></code>
-- <code title="get /webhooks/{id}">client.webhooks.<a href="./src/meorphis_test_40/resources/webhooks.py">retrieve</a>(id) -> <a href="./src/meorphis_test_40/types/webhook_retrieve_response.py">WebhookRetrieveResponse</a></code>
-- <code title="get /webhooks">client.webhooks.<a href="./src/meorphis_test_40/resources/webhooks.py">list</a>() -> <a href="./src/meorphis_test_40/types/webhook_list_response.py">WebhookListResponse</a></code>
-- <code title="delete /webhooks/{id}">client.webhooks.<a href="./src/meorphis_test_40/resources/webhooks.py">delete</a>(id) -> None</code>
-
-# Testings
-
-## Accounts
-
-Types:
-
-```python
-from meorphis_test_40.types.testings import AccountTestingAccountCreateResponse
-```
-
-Methods:
-
-- <code title="post /testing/accounts">client.testings.accounts.<a href="./src/meorphis_test_40/resources/testings/accounts.py">testing_account_create</a>(\*\*<a href="src/meorphis_test_40/types/testings/account_testing_account_create_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/testings/account_testing_account_create_response.py">AccountTestingAccountCreateResponse</a></code>
-
-## CreditCards
-
-Types:
-
-```python
-from meorphis_test_40.types.testings import CreditCardListResponse
-```
-
-Methods:
-
-- <code title="get /testing/credit-cards">client.testings.credit_cards.<a href="./src/meorphis_test_40/resources/testings/credit_cards.py">list</a>() -> <a href="./src/meorphis_test_40/types/testings/credit_card_list_response.py">CreditCardListResponse</a></code>
-
-## Shipments
-
-Methods:
-
-- <code title="post /testing/shipments">client.testings.shipments.<a href="./src/meorphis_test_40/resources/testings/shipments.py">testing_shipment_tracking_create</a>(\*\*<a href="src/meorphis_test_40/types/testings/shipment_testing_shipment_tracking_create_params.py">params</a>) -> None</code>
+- <code title="get /status">client.status.<a href="./src/meorphis_test_40/resources/status.py">list</a>() -> <a href="./src/meorphis_test_40/types/status_list_response.py">StatusListResponse</a></code>

@@ -25,7 +25,7 @@ from ._utils import (
 )
 from ._version import __version__
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import APIStatusError, MeorphisTest40Error
+from ._exceptions import APIStatusError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
@@ -46,30 +46,25 @@ __all__ = [
 ]
 
 ENVIRONMENTS: Dict[str, str] = {
-    "production": "https://api.{username}.dev.bolt.me/v3",
-    "environment_1": "https://{environment}.bolt.com/v3",
+    "production": "https://api.acme.com/v1",
+    "environment_1": "https://sandbox.acme.com/v1",
 }
 
 
 class MeorphisTest40(SyncAPIClient):
     accounts: resources.AccountsResource
-    payments: resources.PaymentsResource
-    guests: resources.GuestsResource
-    merchants: resources.MerchantsResource
-    webhooks: resources.WebhooksResource
-    testings: resources.TestingsResource
+    cards: resources.CardsResource
+    status: resources.StatusResource
     with_raw_response: MeorphisTest40WithRawResponse
     with_streaming_response: MeorphisTest40WithStreamedResponse
 
     # client options
-    api_key: str
 
     _environment: Literal["production", "environment_1"] | NotGiven
 
     def __init__(
         self,
         *,
-        api_key: str | None = None,
         environment: Literal["production", "environment_1"] | NotGiven = NOT_GIVEN,
         base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
@@ -90,18 +85,7 @@ class MeorphisTest40(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous meorphis-test-40 client instance.
-
-        This automatically infers the `api_key` argument from the `MEORPHIS_TEST_40_API_KEY` environment variable if it is not provided.
-        """
-        if api_key is None:
-            api_key = os.environ.get("MEORPHIS_TEST_40_API_KEY")
-        if api_key is None:
-            raise MeorphisTest40Error(
-                "The api_key client option must be set either by passing api_key to the client or by setting the MEORPHIS_TEST_40_API_KEY environment variable"
-            )
-        self.api_key = api_key
-
+        """Construct a new synchronous meorphis-test-40 client instance."""
         self._environment = environment
 
         base_url_env = os.environ.get("MEORPHIS_TEST_40_BASE_URL")
@@ -140,11 +124,8 @@ class MeorphisTest40(SyncAPIClient):
         )
 
         self.accounts = resources.AccountsResource(self)
-        self.payments = resources.PaymentsResource(self)
-        self.guests = resources.GuestsResource(self)
-        self.merchants = resources.MerchantsResource(self)
-        self.webhooks = resources.WebhooksResource(self)
-        self.testings = resources.TestingsResource(self)
+        self.cards = resources.CardsResource(self)
+        self.status = resources.StatusResource(self)
         self.with_raw_response = MeorphisTest40WithRawResponse(self)
         self.with_streaming_response = MeorphisTest40WithStreamedResponse(self)
 
@@ -165,7 +146,6 @@ class MeorphisTest40(SyncAPIClient):
     def copy(
         self,
         *,
-        api_key: str | None = None,
         environment: Literal["production", "environment_1"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
@@ -200,7 +180,6 @@ class MeorphisTest40(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
@@ -251,23 +230,18 @@ class MeorphisTest40(SyncAPIClient):
 
 class AsyncMeorphisTest40(AsyncAPIClient):
     accounts: resources.AsyncAccountsResource
-    payments: resources.AsyncPaymentsResource
-    guests: resources.AsyncGuestsResource
-    merchants: resources.AsyncMerchantsResource
-    webhooks: resources.AsyncWebhooksResource
-    testings: resources.AsyncTestingsResource
+    cards: resources.AsyncCardsResource
+    status: resources.AsyncStatusResource
     with_raw_response: AsyncMeorphisTest40WithRawResponse
     with_streaming_response: AsyncMeorphisTest40WithStreamedResponse
 
     # client options
-    api_key: str
 
     _environment: Literal["production", "environment_1"] | NotGiven
 
     def __init__(
         self,
         *,
-        api_key: str | None = None,
         environment: Literal["production", "environment_1"] | NotGiven = NOT_GIVEN,
         base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
@@ -288,18 +262,7 @@ class AsyncMeorphisTest40(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async meorphis-test-40 client instance.
-
-        This automatically infers the `api_key` argument from the `MEORPHIS_TEST_40_API_KEY` environment variable if it is not provided.
-        """
-        if api_key is None:
-            api_key = os.environ.get("MEORPHIS_TEST_40_API_KEY")
-        if api_key is None:
-            raise MeorphisTest40Error(
-                "The api_key client option must be set either by passing api_key to the client or by setting the MEORPHIS_TEST_40_API_KEY environment variable"
-            )
-        self.api_key = api_key
-
+        """Construct a new async meorphis-test-40 client instance."""
         self._environment = environment
 
         base_url_env = os.environ.get("MEORPHIS_TEST_40_BASE_URL")
@@ -338,11 +301,8 @@ class AsyncMeorphisTest40(AsyncAPIClient):
         )
 
         self.accounts = resources.AsyncAccountsResource(self)
-        self.payments = resources.AsyncPaymentsResource(self)
-        self.guests = resources.AsyncGuestsResource(self)
-        self.merchants = resources.AsyncMerchantsResource(self)
-        self.webhooks = resources.AsyncWebhooksResource(self)
-        self.testings = resources.AsyncTestingsResource(self)
+        self.cards = resources.AsyncCardsResource(self)
+        self.status = resources.AsyncStatusResource(self)
         self.with_raw_response = AsyncMeorphisTest40WithRawResponse(self)
         self.with_streaming_response = AsyncMeorphisTest40WithStreamedResponse(self)
 
@@ -363,7 +323,6 @@ class AsyncMeorphisTest40(AsyncAPIClient):
     def copy(
         self,
         *,
-        api_key: str | None = None,
         environment: Literal["production", "environment_1"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
@@ -398,7 +357,6 @@ class AsyncMeorphisTest40(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
@@ -450,41 +408,29 @@ class AsyncMeorphisTest40(AsyncAPIClient):
 class MeorphisTest40WithRawResponse:
     def __init__(self, client: MeorphisTest40) -> None:
         self.accounts = resources.AccountsResourceWithRawResponse(client.accounts)
-        self.payments = resources.PaymentsResourceWithRawResponse(client.payments)
-        self.guests = resources.GuestsResourceWithRawResponse(client.guests)
-        self.merchants = resources.MerchantsResourceWithRawResponse(client.merchants)
-        self.webhooks = resources.WebhooksResourceWithRawResponse(client.webhooks)
-        self.testings = resources.TestingsResourceWithRawResponse(client.testings)
+        self.cards = resources.CardsResourceWithRawResponse(client.cards)
+        self.status = resources.StatusResourceWithRawResponse(client.status)
 
 
 class AsyncMeorphisTest40WithRawResponse:
     def __init__(self, client: AsyncMeorphisTest40) -> None:
         self.accounts = resources.AsyncAccountsResourceWithRawResponse(client.accounts)
-        self.payments = resources.AsyncPaymentsResourceWithRawResponse(client.payments)
-        self.guests = resources.AsyncGuestsResourceWithRawResponse(client.guests)
-        self.merchants = resources.AsyncMerchantsResourceWithRawResponse(client.merchants)
-        self.webhooks = resources.AsyncWebhooksResourceWithRawResponse(client.webhooks)
-        self.testings = resources.AsyncTestingsResourceWithRawResponse(client.testings)
+        self.cards = resources.AsyncCardsResourceWithRawResponse(client.cards)
+        self.status = resources.AsyncStatusResourceWithRawResponse(client.status)
 
 
 class MeorphisTest40WithStreamedResponse:
     def __init__(self, client: MeorphisTest40) -> None:
         self.accounts = resources.AccountsResourceWithStreamingResponse(client.accounts)
-        self.payments = resources.PaymentsResourceWithStreamingResponse(client.payments)
-        self.guests = resources.GuestsResourceWithStreamingResponse(client.guests)
-        self.merchants = resources.MerchantsResourceWithStreamingResponse(client.merchants)
-        self.webhooks = resources.WebhooksResourceWithStreamingResponse(client.webhooks)
-        self.testings = resources.TestingsResourceWithStreamingResponse(client.testings)
+        self.cards = resources.CardsResourceWithStreamingResponse(client.cards)
+        self.status = resources.StatusResourceWithStreamingResponse(client.status)
 
 
 class AsyncMeorphisTest40WithStreamedResponse:
     def __init__(self, client: AsyncMeorphisTest40) -> None:
         self.accounts = resources.AsyncAccountsResourceWithStreamingResponse(client.accounts)
-        self.payments = resources.AsyncPaymentsResourceWithStreamingResponse(client.payments)
-        self.guests = resources.AsyncGuestsResourceWithStreamingResponse(client.guests)
-        self.merchants = resources.AsyncMerchantsResourceWithStreamingResponse(client.merchants)
-        self.webhooks = resources.AsyncWebhooksResourceWithStreamingResponse(client.webhooks)
-        self.testings = resources.AsyncTestingsResourceWithStreamingResponse(client.testings)
+        self.cards = resources.AsyncCardsResourceWithStreamingResponse(client.cards)
+        self.status = resources.AsyncStatusResourceWithStreamingResponse(client.status)
 
 
 Client = MeorphisTest40

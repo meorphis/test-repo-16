@@ -1,11 +1,11 @@
 [project]
-name = "meorphis-test-40"
+name = "meorphis_test_40"
 version = "0.0.1-alpha.0"
 description = "The official Python library for the meorphis-test-40 API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Meorphis Test 40", email = "api-help@bolt.com" },
+{ name = "Meorphis Test 40", email = "support@acme.com" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",
@@ -39,8 +39,8 @@ classifiers = [
 
 
 [project.urls]
-Homepage = "https://github.com/meorphis/test-repo"
-Repository = "https://github.com/meorphis/test-repo"
+Homepage = "https://github.com/stainless-sdks/meorphis-test-40-python"
+Repository = "https://github.com/stainless-sdks/meorphis-test-40-python"
 
 
 
@@ -58,6 +58,7 @@ dev-dependencies = [
     "nox",
     "dirty-equals>=0.6.0",
     "importlib-metadata>=6.7.0",
+    "rich>=13.7.1",
 
 ]
 
@@ -99,6 +100,21 @@ include = [
 [tool.hatch.build.targets.wheel]
 packages = ["src/meorphis_test_40"]
 
+[tool.hatch.build.targets.sdist]
+# Basically everything except hidden files/directories (such as .github, .devcontainers, .python-version, etc)
+include = [
+  "/*.toml",
+  "/*.json",
+  "/*.lock",
+  "/*.md",
+  "/mypy.ini",
+  "/noxfile.py",
+  "bin/*",
+  "examples/*",
+  "src/*",
+  "tests/*",
+]
+
 [tool.hatch.metadata.hooks.fancy-pypi-readme]
 content-type = "text/markdown"
 
@@ -108,7 +124,7 @@ path = "README.md"
 [[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
 # replace relative links with absolute links
 pattern = '\[(.+?)\]\(((?!https?://)\S+?)\)'
-replacement = '[\1](https://github.com/meorphis/test-repo/tree/main/\g<2>)'
+replacement = '[\1](https://github.com/stainless-sdks/meorphis-test-40-python/tree/main/\g<2>)'
 
 [tool.black]
 line-length = 120

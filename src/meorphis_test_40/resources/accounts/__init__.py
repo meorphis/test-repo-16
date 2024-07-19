@@ -1,13 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .exists import (
-    ExistsResource,
-    AsyncExistsResource,
-    ExistsResourceWithRawResponse,
-    AsyncExistsResourceWithRawResponse,
-    ExistsResourceWithStreamingResponse,
-    AsyncExistsResourceWithStreamingResponse,
-)
 from .accounts import (
     AccountsResource,
     AsyncAccountsResource,
@@ -16,42 +8,22 @@ from .accounts import (
     AccountsResourceWithStreamingResponse,
     AsyncAccountsResourceWithStreamingResponse,
 )
-from .addresses import (
-    AddressesResource,
-    AsyncAddressesResource,
-    AddressesResourceWithRawResponse,
-    AsyncAddressesResourceWithRawResponse,
-    AddressesResourceWithStreamingResponse,
-    AsyncAddressesResourceWithStreamingResponse,
-)
-from .payment_methods import (
-    PaymentMethodsResource,
-    AsyncPaymentMethodsResource,
-    PaymentMethodsResourceWithRawResponse,
-    AsyncPaymentMethodsResourceWithRawResponse,
-    PaymentMethodsResourceWithStreamingResponse,
-    AsyncPaymentMethodsResourceWithStreamingResponse,
+from .credit_configuration import (
+    CreditConfigurationResource,
+    AsyncCreditConfigurationResource,
+    CreditConfigurationResourceWithRawResponse,
+    AsyncCreditConfigurationResourceWithRawResponse,
+    CreditConfigurationResourceWithStreamingResponse,
+    AsyncCreditConfigurationResourceWithStreamingResponse,
 )
 
 __all__ = [
-    "AddressesResource",
-    "AsyncAddressesResource",
-    "AddressesResourceWithRawResponse",
-    "AsyncAddressesResourceWithRawResponse",
-    "AddressesResourceWithStreamingResponse",
-    "AsyncAddressesResourceWithStreamingResponse",
-    "ExistsResource",
-    "AsyncExistsResource",
-    "ExistsResourceWithRawResponse",
-    "AsyncExistsResourceWithRawResponse",
-    "ExistsResourceWithStreamingResponse",
-    "AsyncExistsResourceWithStreamingResponse",
-    "PaymentMethodsResource",
-    "AsyncPaymentMethodsResource",
-    "PaymentMethodsResourceWithRawResponse",
-    "AsyncPaymentMethodsResourceWithRawResponse",
-    "PaymentMethodsResourceWithStreamingResponse",
-    "AsyncPaymentMethodsResourceWithStreamingResponse",
+    "CreditConfigurationResource",
+    "AsyncCreditConfigurationResource",
+    "CreditConfigurationResourceWithRawResponse",
+    "AsyncCreditConfigurationResourceWithRawResponse",
+    "CreditConfigurationResourceWithStreamingResponse",
+    "AsyncCreditConfigurationResourceWithStreamingResponse",
     "AccountsResource",
     "AsyncAccountsResource",
     "AccountsResourceWithRawResponse",
