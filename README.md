@@ -15,8 +15,8 @@ The REST API documentation can be found on [docs.meorphis-test-40.com](https://d
 ## Installation
 
 ```sh
-# install from this staging repo
-pip install git+ssh://git@github.com/stainless-sdks/meorphis-test-40-python.git
+# install from the production repo
+pip install git+ssh://git@github.com/meorphis/test-repo-14.git
 ```
 
 > [!NOTE]
@@ -211,9 +211,9 @@ card = response.parse()  # get the object that `cards.create()` would have retur
 print(card.token)
 ```
 
-These methods return an [`APIResponse`](https://github.com/stainless-sdks/meorphis-test-40-python/tree/main/src/meorphis_test_40/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/meorphis/test-repo-14/tree/main/src/meorphis_test_40/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/meorphis-test-40-python/tree/main/src/meorphis_test_40/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/meorphis/test-repo-14/tree/main/src/meorphis_test_40/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -309,7 +309,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/meorphis-test-40-python/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/meorphis/test-repo-14/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
