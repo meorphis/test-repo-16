@@ -53,13 +53,11 @@ client = AsyncMeorphisTest40(
     environment="environment_1",
 )
 
-
 async def main() -> None:
-    card = await client.cards.create(
-        type="REPLACE_ME",
-    )
-    print(card.token)
-
+  card = await client.cards.create(
+      type="REPLACE_ME",
+  )
+  print(card.token)
 
 asyncio.run(main())
 ```
@@ -96,7 +94,7 @@ try:
     )
 except meorphis_test_40.APIConnectionError as e:
     print("The server could not be reached")
-    print(e.__cause__)  # an underlying Exception, likely raised within httpx.
+    print(e.__cause__) # an underlying Exception, likely raised within httpx.
 except meorphis_test_40.RateLimitError as e:
     print("A 429 status code was received; we should back off a bit.")
 except meorphis_test_40.APIStatusError as e:
@@ -136,7 +134,7 @@ client = MeorphisTest40(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).cards.create(
+client.with_options(max_retries = 5).cards.create(
     type="REPLACE_ME",
 )
 ```
@@ -161,7 +159,7 @@ client = MeorphisTest40(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).cards.create(
+client.with_options(timeout = 5.0).cards.create(
     type="REPLACE_ME",
 )
 ```
@@ -224,11 +222,11 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 ```python
 with client.cards.with_streaming_response.create(
     type="REPLACE_ME",
-) as response:
-    print(response.headers.get("X-My-Header"))
+) as response :
+    print(response.headers.get('X-My-Header'))
 
     for line in response.iter_lines():
-        print(line)
+      print(line)
 ```
 
 The context manager is required so that the response will reliably be closed.
@@ -282,17 +280,8 @@ from meorphis_test_40 import MeorphisTest40, DefaultHttpxClient
 client = MeorphisTest40(
     # Or use the `MEORPHIS_TEST_40_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
-    http_client=DefaultHttpxClient(
-        proxies="http://my.test.proxy.example.com",
-        transport=httpx.HTTPTransport(local_address="0.0.0.0"),
-    ),
+    http_client=DefaultHttpxClient(proxies="http://my.test.proxy.example.com", transport=httpx.HTTPTransport(local_address="0.0.0.0")),
 )
-```
-
-You can also customize the client on a per-request basis by using `with_options()`:
-
-```python
-client.with_options(http_client=DefaultHttpxClient(...))
 ```
 
 ### Managing HTTP resources

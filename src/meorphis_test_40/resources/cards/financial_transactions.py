@@ -4,20 +4,23 @@ from __future__ import annotations
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
-    to_raw_response_wrapper,
-    to_streamed_response_wrapper,
-    async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
-)
-from ..._base_client import make_request_options
+
 from ...types.cards.financial_transaction import FinancialTransaction
 
-__all__ = ["FinancialTransactionsResource", "AsyncFinancialTransactionsResource"]
+from ..._base_client import make_request_options
 
+from ..._response import to_raw_response_wrapper, async_to_raw_response_wrapper, to_streamed_response_wrapper, async_to_streamed_response_wrapper
+
+import warnings
+from typing import TYPE_CHECKING, Optional, Union, List, Dict, Any, Mapping, cast, overload
+from typing_extensions import Literal
+from ..._utils import extract_files, maybe_transform, required_args, deepcopy_minimal, strip_not_given
+from ..._types import NotGiven, Timeout, Headers, NoneType, Query, Body, NOT_GIVEN, FileTypes, BinaryResponseContent
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ...types import shared_params
+
+__all__ = ["FinancialTransactionsResource", "AsyncFinancialTransactionsResource"]
 
 class FinancialTransactionsResource(SyncAPIResource):
     @cached_property
@@ -28,18 +31,16 @@ class FinancialTransactionsResource(SyncAPIResource):
     def with_streaming_response(self) -> FinancialTransactionsResourceWithStreamingResponse:
         return FinancialTransactionsResourceWithStreamingResponse(self)
 
-    def retrieve(
-        self,
-        financial_transaction_token: str,
-        *,
-        card_token: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> FinancialTransaction:
+    def retrieve(self,
+    financial_transaction_token: str,
+    *,
+    card_token: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,) -> FinancialTransaction:
         """
         Get the card financial transaction for the provided token.
 
@@ -53,19 +54,18 @@ class FinancialTransactionsResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not card_token:
-            raise ValueError(f"Expected a non-empty value for `card_token` but received {card_token!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `card_token` but received {card_token!r}'
+          )
         if not financial_transaction_token:
-            raise ValueError(
-                f"Expected a non-empty value for `financial_transaction_token` but received {financial_transaction_token!r}"
-            )
+          raise ValueError(
+            f'Expected a non-empty value for `financial_transaction_token` but received {financial_transaction_token!r}'
+          )
         return self._get(
             f"/cards/{card_token}/financial_transactions/{financial_transaction_token}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=FinancialTransaction,
         )
-
 
 class AsyncFinancialTransactionsResource(AsyncAPIResource):
     @cached_property
@@ -76,18 +76,16 @@ class AsyncFinancialTransactionsResource(AsyncAPIResource):
     def with_streaming_response(self) -> AsyncFinancialTransactionsResourceWithStreamingResponse:
         return AsyncFinancialTransactionsResourceWithStreamingResponse(self)
 
-    async def retrieve(
-        self,
-        financial_transaction_token: str,
-        *,
-        card_token: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> FinancialTransaction:
+    async def retrieve(self,
+    financial_transaction_token: str,
+    *,
+    card_token: str,
+    # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+    # The extra values given here take precedence over values defined on the client or passed to this method.
+    extra_headers: Headers | None = None,
+    extra_query: Query | None = None,
+    extra_body: Body | None = None,
+    timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,) -> FinancialTransaction:
         """
         Get the card financial transaction for the provided token.
 
@@ -101,19 +99,18 @@ class AsyncFinancialTransactionsResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         if not card_token:
-            raise ValueError(f"Expected a non-empty value for `card_token` but received {card_token!r}")
+          raise ValueError(
+            f'Expected a non-empty value for `card_token` but received {card_token!r}'
+          )
         if not financial_transaction_token:
-            raise ValueError(
-                f"Expected a non-empty value for `financial_transaction_token` but received {financial_transaction_token!r}"
-            )
+          raise ValueError(
+            f'Expected a non-empty value for `financial_transaction_token` but received {financial_transaction_token!r}'
+          )
         return await self._get(
             f"/cards/{card_token}/financial_transactions/{financial_transaction_token}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
+            options=make_request_options(extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout),
             cast_to=FinancialTransaction,
         )
-
 
 class FinancialTransactionsResourceWithRawResponse:
     def __init__(self, financial_transactions: FinancialTransactionsResource) -> None:
@@ -123,7 +120,6 @@ class FinancialTransactionsResourceWithRawResponse:
             financial_transactions.retrieve,
         )
 
-
 class AsyncFinancialTransactionsResourceWithRawResponse:
     def __init__(self, financial_transactions: AsyncFinancialTransactionsResource) -> None:
         self._financial_transactions = financial_transactions
@@ -132,7 +128,6 @@ class AsyncFinancialTransactionsResourceWithRawResponse:
             financial_transactions.retrieve,
         )
 
-
 class FinancialTransactionsResourceWithStreamingResponse:
     def __init__(self, financial_transactions: FinancialTransactionsResource) -> None:
         self._financial_transactions = financial_transactions
@@ -140,7 +135,6 @@ class FinancialTransactionsResourceWithStreamingResponse:
         self.retrieve = to_streamed_response_wrapper(
             financial_transactions.retrieve,
         )
-
 
 class AsyncFinancialTransactionsResourceWithStreamingResponse:
     def __init__(self, financial_transactions: AsyncFinancialTransactionsResource) -> None:

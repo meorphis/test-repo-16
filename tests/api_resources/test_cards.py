@@ -2,30 +2,36 @@
 
 from __future__ import annotations
 
-import os
+from meorphis_test_40 import MeorphisTest40, AsyncMeorphisTest40
+
+from meorphis_test_40.types import Card, CardProvisionResponse
+
 from typing import Any, cast
 
+import os
 import pytest
-
-from tests.utils import assert_matches_type
+import httpx
+from typing_extensions import get_args
+from typing import Optional
+from respx import MockRouter
 from meorphis_test_40 import MeorphisTest40, AsyncMeorphisTest40
-from meorphis_test_40.types import (
-    Card,
-    CardProvisionResponse,
-)
+from tests.utils import assert_matches_type
+from meorphis_test_40.types import card_create_params
+from meorphis_test_40.types import card_update_params
+from meorphis_test_40.types import card_provision_params
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
-
 class TestCards:
-    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=['loose', 'strict'])
+
 
     @parametrize
     def test_method_create(self, client: MeorphisTest40) -> None:
         card = client.cards.create(
             type="VIRTUAL",
         )
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     def test_method_create_with_all_params(self, client: MeorphisTest40) -> None:
@@ -33,7 +39,9 @@ class TestCards:
             type="VIRTUAL",
             account_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             card_program_token="00000000-0000-0000-1000-000000000000",
-            carrier={"qr_code_url": "qr_code_url"},
+            carrier={
+                "qr_code_url": "qr_code_url"
+            },
             digital_card_art_token="00000000-0000-0000-1000-000000000000",
             exp_month="06",
             exp_year="2027",
@@ -59,29 +67,30 @@ class TestCards:
             state="OPEN",
             idempotency_key="Idempotency-Key",
         )
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     def test_raw_response_create(self, client: MeorphisTest40) -> None:
+
         response = client.cards.with_raw_response.create(
             type="VIRTUAL",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         card = response.parse()
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     def test_streaming_response_create(self, client: MeorphisTest40) -> None:
         with client.cards.with_streaming_response.create(
             type="VIRTUAL",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             card = response.parse()
-            assert_matches_type(Card, card, path=["response"])
+            assert_matches_type(Card, card, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -90,45 +99,46 @@ class TestCards:
         card = client.cards.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     def test_raw_response_retrieve(self, client: MeorphisTest40) -> None:
+
         response = client.cards.with_raw_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         card = response.parse()
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     def test_streaming_response_retrieve(self, client: MeorphisTest40) -> None:
         with client.cards.with_streaming_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             card = response.parse()
-            assert_matches_type(Card, card, path=["response"])
+            assert_matches_type(Card, card, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_path_params_retrieve(self, client: MeorphisTest40) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `card_token` but received ''"):
-            client.cards.with_raw_response.retrieve(
-                "",
-            )
+          client.cards.with_raw_response.retrieve(
+              "",
+          )
 
     @parametrize
     def test_method_update(self, client: MeorphisTest40) -> None:
         card = client.cards.update(
             card_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     def test_method_update_with_all_params(self, client: MeorphisTest40) -> None:
@@ -142,45 +152,46 @@ class TestCards:
             spend_limit_duration="FOREVER",
             state="OPEN",
         )
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     def test_raw_response_update(self, client: MeorphisTest40) -> None:
+
         response = client.cards.with_raw_response.update(
             card_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         card = response.parse()
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     def test_streaming_response_update(self, client: MeorphisTest40) -> None:
         with client.cards.with_streaming_response.update(
             card_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             card = response.parse()
-            assert_matches_type(Card, card, path=["response"])
+            assert_matches_type(Card, card, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_path_params_update(self, client: MeorphisTest40) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `card_token` but received ''"):
-            client.cards.with_raw_response.update(
-                card_token="",
-            )
+          client.cards.with_raw_response.update(
+              card_token="",
+          )
 
     @parametrize
     def test_method_provision(self, client: MeorphisTest40) -> None:
         card = client.cards.provision(
             card_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(CardProvisionResponse, card, path=["response"])
+        assert_matches_type(CardProvisionResponse, card, path=['response'])
 
     @parametrize
     def test_method_provision_with_all_params(self, client: MeorphisTest40) -> None:
@@ -192,49 +203,49 @@ class TestCards:
             nonce_signature="U3RhaW5sZXNzIHJvY2tz",
             idempotency_key="Idempotency-Key",
         )
-        assert_matches_type(CardProvisionResponse, card, path=["response"])
+        assert_matches_type(CardProvisionResponse, card, path=['response'])
 
     @parametrize
     def test_raw_response_provision(self, client: MeorphisTest40) -> None:
+
         response = client.cards.with_raw_response.provision(
             card_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         card = response.parse()
-        assert_matches_type(CardProvisionResponse, card, path=["response"])
+        assert_matches_type(CardProvisionResponse, card, path=['response'])
 
     @parametrize
     def test_streaming_response_provision(self, client: MeorphisTest40) -> None:
         with client.cards.with_streaming_response.provision(
             card_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             card = response.parse()
-            assert_matches_type(CardProvisionResponse, card, path=["response"])
+            assert_matches_type(CardProvisionResponse, card, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_path_params_provision(self, client: MeorphisTest40) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `card_token` but received ''"):
-            client.cards.with_raw_response.provision(
-                card_token="",
-            )
-
-
+          client.cards.with_raw_response.provision(
+              card_token="",
+          )
 class TestAsyncCards:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=['loose', 'strict'])
+
 
     @parametrize
     async def test_method_create(self, async_client: AsyncMeorphisTest40) -> None:
         card = await async_client.cards.create(
             type="VIRTUAL",
         )
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncMeorphisTest40) -> None:
@@ -242,7 +253,9 @@ class TestAsyncCards:
             type="VIRTUAL",
             account_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             card_program_token="00000000-0000-0000-1000-000000000000",
-            carrier={"qr_code_url": "qr_code_url"},
+            carrier={
+                "qr_code_url": "qr_code_url"
+            },
             digital_card_art_token="00000000-0000-0000-1000-000000000000",
             exp_month="06",
             exp_year="2027",
@@ -268,29 +281,30 @@ class TestAsyncCards:
             state="OPEN",
             idempotency_key="Idempotency-Key",
         )
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMeorphisTest40) -> None:
+
         response = await async_client.cards.with_raw_response.create(
             type="VIRTUAL",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         card = await response.parse()
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMeorphisTest40) -> None:
         async with async_client.cards.with_streaming_response.create(
             type="VIRTUAL",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             card = await response.parse()
-            assert_matches_type(Card, card, path=["response"])
+            assert_matches_type(Card, card, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
@@ -299,45 +313,46 @@ class TestAsyncCards:
         card = await async_client.cards.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMeorphisTest40) -> None:
+
         response = await async_client.cards.with_raw_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         card = await response.parse()
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMeorphisTest40) -> None:
         async with async_client.cards.with_streaming_response.retrieve(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             card = await response.parse()
-            assert_matches_type(Card, card, path=["response"])
+            assert_matches_type(Card, card, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncMeorphisTest40) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `card_token` but received ''"):
-            await async_client.cards.with_raw_response.retrieve(
-                "",
-            )
+          await async_client.cards.with_raw_response.retrieve(
+              "",
+          )
 
     @parametrize
     async def test_method_update(self, async_client: AsyncMeorphisTest40) -> None:
         card = await async_client.cards.update(
             card_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncMeorphisTest40) -> None:
@@ -351,45 +366,46 @@ class TestAsyncCards:
             spend_limit_duration="FOREVER",
             state="OPEN",
         )
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncMeorphisTest40) -> None:
+
         response = await async_client.cards.with_raw_response.update(
             card_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         card = await response.parse()
-        assert_matches_type(Card, card, path=["response"])
+        assert_matches_type(Card, card, path=['response'])
 
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncMeorphisTest40) -> None:
         async with async_client.cards.with_streaming_response.update(
             card_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             card = await response.parse()
-            assert_matches_type(Card, card, path=["response"])
+            assert_matches_type(Card, card, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_path_params_update(self, async_client: AsyncMeorphisTest40) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `card_token` but received ''"):
-            await async_client.cards.with_raw_response.update(
-                card_token="",
-            )
+          await async_client.cards.with_raw_response.update(
+              card_token="",
+          )
 
     @parametrize
     async def test_method_provision(self, async_client: AsyncMeorphisTest40) -> None:
         card = await async_client.cards.provision(
             card_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(CardProvisionResponse, card, path=["response"])
+        assert_matches_type(CardProvisionResponse, card, path=['response'])
 
     @parametrize
     async def test_method_provision_with_all_params(self, async_client: AsyncMeorphisTest40) -> None:
@@ -401,35 +417,36 @@ class TestAsyncCards:
             nonce_signature="U3RhaW5sZXNzIHJvY2tz",
             idempotency_key="Idempotency-Key",
         )
-        assert_matches_type(CardProvisionResponse, card, path=["response"])
+        assert_matches_type(CardProvisionResponse, card, path=['response'])
 
     @parametrize
     async def test_raw_response_provision(self, async_client: AsyncMeorphisTest40) -> None:
+
         response = await async_client.cards.with_raw_response.provision(
             card_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
 
         assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
         card = await response.parse()
-        assert_matches_type(CardProvisionResponse, card, path=["response"])
+        assert_matches_type(CardProvisionResponse, card, path=['response'])
 
     @parametrize
     async def test_streaming_response_provision(self, async_client: AsyncMeorphisTest40) -> None:
         async with async_client.cards.with_streaming_response.provision(
             card_token="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
+        ) as response :
             assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+            assert response.http_request.headers.get('X-Stainless-Lang') == 'python'
 
             card = await response.parse()
-            assert_matches_type(CardProvisionResponse, card, path=["response"])
+            assert_matches_type(CardProvisionResponse, card, path=['response'])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_path_params_provision(self, async_client: AsyncMeorphisTest40) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `card_token` but received ''"):
-            await async_client.cards.with_raw_response.provision(
-                card_token="",
-            )
+          await async_client.cards.with_raw_response.provision(
+              card_token="",
+          )

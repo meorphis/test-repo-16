@@ -2,12 +2,17 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing_extensions import TypedDict, Literal, Required, Annotated
 
 from .._utils import PropertyInfo
 
-__all__ = ["CardCreateParams", "Carrier", "ShippingAddress"]
+from typing import List, Union, Dict, Optional
+from typing_extensions import Literal, TypedDict, Required, Annotated
+from .._types import FileTypes
+from .._utils import PropertyInfo
+from ..types import shared_params
 
+__all__ = ["CardCreateParams", "Carrier", "ShippingAddress"]
 
 class CardCreateParams(TypedDict, total=False):
     type: Required[Literal["VIRTUAL", "PHYSICAL", "MERCHANT_LOCKED", "SINGLE_USE"]]
@@ -141,11 +146,9 @@ class CardCreateParams(TypedDict, total=False):
 
     idempotency_key: Annotated[str, PropertyInfo(alias="Idempotency-Key")]
 
-
 class Carrier(TypedDict, total=False):
     qr_code_url: str
     """QR code url to display on the card carrier"""
-
 
 class ShippingAddress(TypedDict, total=False):
     address1: Required[str]
