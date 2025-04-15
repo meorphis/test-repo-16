@@ -42,15 +42,15 @@ If you’d like to use the repository from source, you can either install from g
 To install via git:
 
 ```sh
-$ npm install git+ssh://git@github.com:meorphis/test-repo-15.git
+$ npm install git+ssh://git@github.com:meorphis/test-repo-14.git
 ```
 
 Alternatively, to link a local copy of the repo:
 
 ```sh
 # Clone
-$ git clone https://www.github.com/meorphis/test-repo-15
-$ cd test-repo-15
+$ git clone https://www.github.com/meorphis/test-repo-14
+$ cd test-repo-14
 
 # With yarn
 $ yarn link
