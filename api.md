@@ -1,64 +1,60 @@
-# Accounts
+# Shared
 
 Types:
 
-```python
-from meorphis_test_40.types import AccountConfiguration
-```
+- <code><a href="./src/resources/shared.ts">Order</a></code>
 
-Methods:
-
-- <code title="get /accounts/{account_token}">client.accounts.<a href="./src/meorphis_test_40/resources/accounts/accounts.py">retrieve</a>(account_token) -> <a href="./src/meorphis_test_40/types/account_configuration.py">AccountConfiguration</a></code>
-- <code title="patch /accounts/{account_token}">client.accounts.<a href="./src/meorphis_test_40/resources/accounts/accounts.py">update</a>(account_token, \*\*<a href="src/meorphis_test_40/types/account_update_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/account_configuration.py">AccountConfiguration</a></code>
-
-## CreditConfiguration
+# Pets
 
 Types:
 
-```python
-from meorphis_test_40.types.accounts import BusinessAccount
-```
+- <code><a href="./src/resources/pets.ts">APIResponse</a></code>
+- <code><a href="./src/resources/pets.ts">Pet</a></code>
+- <code><a href="./src/resources/pets.ts">PetFindByStatusResponse</a></code>
+- <code><a href="./src/resources/pets.ts">PetFindByTagsResponse</a></code>
 
 Methods:
 
-- <code title="get /accounts/{account_token}/credit_configuration">client.accounts.credit_configuration.<a href="./src/meorphis_test_40/resources/accounts/credit_configuration.py">retrieve</a>(account_token) -> <a href="./src/meorphis_test_40/types/accounts/business_account.py">BusinessAccount</a></code>
-- <code title="patch /accounts/{account_token}/credit_configuration">client.accounts.credit_configuration.<a href="./src/meorphis_test_40/resources/accounts/credit_configuration.py">update</a>(account_token, \*\*<a href="src/meorphis_test_40/types/accounts/credit_configuration_update_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/accounts/business_account.py">BusinessAccount</a></code>
+- <code title="post /pet">client.pets.<a href="./src/resources/pets.ts">create</a>({ ...params }) -> Pet</code>
+- <code title="get /pet/{petId}">client.pets.<a href="./src/resources/pets.ts">retrieve</a>(petID) -> Pet</code>
+- <code title="put /pet">client.pets.<a href="./src/resources/pets.ts">update</a>({ ...params }) -> Pet</code>
+- <code title="delete /pet/{petId}">client.pets.<a href="./src/resources/pets.ts">delete</a>(petID) -> void</code>
+- <code title="get /pet/findByStatus">client.pets.<a href="./src/resources/pets.ts">findByStatus</a>({ ...params }) -> PetFindByStatusResponse</code>
+- <code title="get /pet/findByTags">client.pets.<a href="./src/resources/pets.ts">findByTags</a>({ ...params }) -> PetFindByTagsResponse</code>
+- <code title="post /pet/{petId}">client.pets.<a href="./src/resources/pets.ts">updateByID</a>(petID, { ...params }) -> void</code>
+- <code title="post /pet/{petId}/uploadImage">client.pets.<a href="./src/resources/pets.ts">uploadImage</a>(petID, { ...params }) -> APIResponse</code>
 
-# Cards
+# Store
 
 Types:
 
-```python
-from meorphis_test_40.types import Card, CardProvisionResponse
-```
+- <code><a href="./src/resources/store/store.ts">StoreInventoryResponse</a></code>
 
 Methods:
 
-- <code title="post /cards">client.cards.<a href="./src/meorphis_test_40/resources/cards/cards.py">create</a>(\*\*<a href="src/meorphis_test_40/types/card_create_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/card.py">Card</a></code>
-- <code title="get /cards/{card_token}">client.cards.<a href="./src/meorphis_test_40/resources/cards/cards.py">retrieve</a>(card_token) -> <a href="./src/meorphis_test_40/types/card.py">Card</a></code>
-- <code title="patch /cards/{card_token}">client.cards.<a href="./src/meorphis_test_40/resources/cards/cards.py">update</a>(card_token, \*\*<a href="src/meorphis_test_40/types/card_update_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/card.py">Card</a></code>
-- <code title="post /cards/{card_token}/provision">client.cards.<a href="./src/meorphis_test_40/resources/cards/cards.py">provision</a>(card_token, \*\*<a href="src/meorphis_test_40/types/card_provision_params.py">params</a>) -> <a href="./src/meorphis_test_40/types/card_provision_response.py">CardProvisionResponse</a></code>
+- <code title="get /store/inventory">client.store.<a href="./src/resources/store/store.ts">inventory</a>() -> StoreInventoryResponse</code>
 
-## FinancialTransactions
+## Orders
+
+Methods:
+
+- <code title="post /store/order">client.store.orders.<a href="./src/resources/store/orders.ts">create</a>({ ...params }) -> Order</code>
+- <code title="get /store/order/{orderId}">client.store.orders.<a href="./src/resources/store/orders.ts">retrieve</a>(orderID) -> Order</code>
+- <code title="delete /store/order/{orderId}">client.store.orders.<a href="./src/resources/store/orders.ts">delete</a>(orderID) -> void</code>
+
+# User
 
 Types:
 
-```python
-from meorphis_test_40.types.cards import FinancialTransaction
-```
+- <code><a href="./src/resources/user.ts">User</a></code>
+- <code><a href="./src/resources/user.ts">UserLoginResponse</a></code>
 
 Methods:
 
-- <code title="get /cards/{card_token}/financial_transactions/{financial_transaction_token}">client.cards.financial_transactions.<a href="./src/meorphis_test_40/resources/cards/financial_transactions.py">retrieve</a>(financial_transaction_token, \*, card_token) -> <a href="./src/meorphis_test_40/types/cards/financial_transaction.py">FinancialTransaction</a></code>
-
-# Status
-
-Types:
-
-```python
-from meorphis_test_40.types import StatusListResponse
-```
-
-Methods:
-
-- <code title="get /status">client.status.<a href="./src/meorphis_test_40/resources/status.py">list</a>() -> <a href="./src/meorphis_test_40/types/status_list_response.py">StatusListResponse</a></code>
+- <code title="post /user">client.user.<a href="./src/resources/user.ts">create</a>({ ...params }) -> User</code>
+- <code title="get /user/{username}">client.user.<a href="./src/resources/user.ts">retrieve</a>(username) -> User</code>
+- <code title="put /user/{username}">client.user.<a href="./src/resources/user.ts">update</a>(existingUsername, { ...params }) -> void</code>
+- <code title="delete /user/{username}">client.user.<a href="./src/resources/user.ts">delete</a>(username) -> void</code>
+- <code title="post /user/createWithList">client.user.<a href="./src/resources/user.ts">createWithList</a>([ ...items ]) -> User</code>
+- <code title="get /user/login">client.user.<a href="./src/resources/user.ts">login</a>({ ...params }) -> string</code>
+- <code title="get /user/logout">client.user.<a href="./src/resources/user.ts">logout</a>() -> void</code>
