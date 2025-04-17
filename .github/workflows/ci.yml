@@ -56,7 +56,7 @@ jobs:
       - name: Upload tarball
         if: github.repository == 'stainless-sdks-staging/eric-co-typescript'
         env:
-          URL: https://pkg.staging.stainless.com/s
+          URL: https://pkg.staging.stainless.com/s?subpackage=test
           AUTH: ${{ steps.github-oidc.outputs.github_token }}
           SHA: ${{ github.sha }}
         run: ./scripts/utils/upload-artifact.sh
