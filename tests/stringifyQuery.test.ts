@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { EricCoo } from 'eric-co';
+import { EricCooo } from 'eric-co';
 
-const { stringifyQuery } = EricCoo.prototype as any;
+const { stringifyQuery } = EricCooo.prototype as any;
 
 describe(stringifyQuery, () => {
   for (const [input, expected] of [
