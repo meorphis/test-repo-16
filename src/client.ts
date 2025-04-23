@@ -57,7 +57,7 @@ export interface ClientOptions {
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['ERIC_COO_BASE_URL'].
+   * Defaults to process.env['ERIC_COOO_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -109,7 +109,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['ERIC_COO_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['ERIC_COOO_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -122,9 +122,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Eric Coo API.
+ * API Client for interfacing with the Eric Cooo API.
  */
-export class EricCoo {
+export class EricCooo {
   apiKey: string;
 
   baseURL: string;
@@ -140,10 +140,10 @@ export class EricCoo {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Eric Coo API.
+   * API Client for interfacing with the Eric Cooo API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['PETSTORE_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['ERIC_COO_BASE_URL'] ?? https://petstore3.swagger.io/api/v3] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['ERIC_COOO_BASE_URL'] ?? https://petstore3.swagger.io/api/v3] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -152,13 +152,13 @@ export class EricCoo {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('ERIC_COO_BASE_URL'),
+    baseURL = readEnv('ERIC_COOO_BASE_URL'),
     apiKey = readEnv('PETSTORE_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
-      throw new Errors.EricCooError(
-        "The PETSTORE_API_KEY environment variable is missing or empty; either provide it, or instantiate the EricCoo client with an apiKey option, like new EricCoo({ apiKey: 'My API Key' }).",
+      throw new Errors.EricCoooError(
+        "The PETSTORE_API_KEY environment variable is missing or empty; either provide it, or instantiate the EricCooo client with an apiKey option, like new EricCooo({ apiKey: 'My API Key' }).",
       );
     }
 
@@ -169,14 +169,14 @@ export class EricCoo {
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? EricCoo.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? EricCooo.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('ERIC_COO_LOG'), "process.env['ERIC_COO_LOG']", this) ??
+      parseLogLevel(readEnv('ERIC_COOO_LOG'), "process.env['ERIC_COOO_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
@@ -662,10 +662,10 @@ export class EricCoo {
     }
   }
 
-  static EricCoo = this;
+  static EricCooo = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static EricCooError = Errors.EricCooError;
+  static EricCoooError = Errors.EricCoooError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -685,10 +685,10 @@ export class EricCoo {
   store: API.Store = new API.Store(this);
   user: API.UserResource = new API.UserResource(this);
 }
-EricCoo.Pets = Pets;
-EricCoo.Store = Store;
-EricCoo.UserResource = UserResource;
-export declare namespace EricCoo {
+EricCooo.Pets = Pets;
+EricCooo.Store = Store;
+EricCooo.UserResource = UserResource;
+export declare namespace EricCooo {
   export type RequestOptions = Opts.RequestOptions;
 
   export {
