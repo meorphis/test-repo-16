@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import type { EricCooo } from '../client';
+import type { EricCoooo } from '../client';
 
 export class APIResource {
-  protected _client: EricCooo;
+  protected _client: EricCoooo;
 
-  constructor(client: EricCooo) {
+  constructor(client: EricCoooo) {
     this._client = client;
   }
 }
