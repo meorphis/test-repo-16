@@ -11,6 +11,11 @@ export class Store extends APIResource {
 
   /**
    * Returns a map of status codes to quantities
+   *
+   * @example
+   * ```ts
+   * const response = await client.store.inventory();
+   * ```
    */
   inventory(options?: RequestOptions): APIPromise<StoreInventoryResponse> {
     return this._client.get('/store/inventory', options);

@@ -10,6 +10,11 @@ import { path } from '../../internal/utils/path';
 export class Orders extends APIResource {
   /**
    * Place a new order in the store
+   *
+   * @example
+   * ```ts
+   * const order = await client.store.orders.create();
+   * ```
    */
   create(
     body: OrderCreateParams | null | undefined = {},
@@ -21,6 +26,11 @@ export class Orders extends APIResource {
   /**
    * For valid response try integer IDs with value <= 5 or > 10. Other values will
    * generate exceptions.
+   *
+   * @example
+   * ```ts
+   * const order = await client.store.orders.retrieve(0);
+   * ```
    */
   retrieve(orderID: number, options?: RequestOptions): APIPromise<Shared.Order> {
     return this._client.get(path`/store/order/${orderID}`, options);
@@ -29,6 +39,11 @@ export class Orders extends APIResource {
   /**
    * For valid response try integer IDs with value < 1000. Anything above 1000 or
    * nonintegers will generate API errors
+   *
+   * @example
+   * ```ts
+   * await client.store.orders.delete(0);
+   * ```
    */
   delete(orderID: number, options?: RequestOptions): APIPromise<void> {
     return this._client.delete(path`/store/order/${orderID}`, {
