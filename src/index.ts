@@ -1,12 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { EricCoooo as default } from './client';
+export { EricCoooooo as default } from './client';
 
 export { type Uploadable, toFile } from './core/uploads';
 export { APIPromise } from './core/api-promise';
-export { EricCoooo, type ClientOptions } from './client';
+export { EricCoooooo, type ClientOptions } from './client';
 export {
-  EricCooooError,
+  EricCooooooError,
   APIError,
   APIConnectionError,
   APIConnectionTimeoutError,
