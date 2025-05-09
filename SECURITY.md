@@ -16,9 +16,9 @@ before making any information public.
 ## Reporting Non-SDK Related Security Issues
 
 If you encounter security issues that are not directly related to SDKs but pertain to the services
-or products provided by Eric Cooooooo please follow the respective company's security reporting guidelines.
+or products provided by Eric Coooooooo please follow the respective company's security reporting guidelines.
 
-### Eric Cooooooo Terms and Policies
+### Eric Coooooooo Terms and Policies
 
 Please contact dev-feedback@eric-co.com for any questions or concerns regarding security of our services.
 
