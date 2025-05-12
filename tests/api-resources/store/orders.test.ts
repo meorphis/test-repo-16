@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import EricCooooooooo from 'eric-co';
+import EricCoooooooooo from 'eric-co';
 
-const client = new EricCooooooooo({
+const client = new EricCoooooooooo({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
@@ -35,7 +35,7 @@ describe('resource orders', () => {
         },
         { path: '/_stainless_unknown_path' },
       ),
-    ).rejects.toThrow(EricCooooooooo.NotFoundError);
+    ).rejects.toThrow(EricCoooooooooo.NotFoundError);
   });
 
   // skipped: tests are disabled for the time being
