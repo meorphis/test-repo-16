@@ -1,4 +1,4 @@
-# Eric Cooooooooooo TypeScript API Library
+# Eric Cooooooooooo TypeScript API Library!
 
 [![NPM version](https://img.shields.io/npm/v/eric-co.svg)](https://npmjs.org/package/eric-co) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/eric-co)
 
