@@ -1,0 +1,17 @@
+name: Fake Workflow
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.event_name }}
+      - run: echo ${{ github.event.action }}
+      - run: echo ${{ github.event.pull_request.merged }}
+      - run: echo ${{ github.event.pull_request.head.ref }}
