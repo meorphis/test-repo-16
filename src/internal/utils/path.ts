@@ -1,4 +1,4 @@
-import { EricCompError } from '../../core/error';
+import { EricCompanyError } from '../../core/error';
 
 /**
  * Percent-encode everything that isn't safe to have in a path without encoding safe chars.
@@ -51,7 +51,9 @@ export const createPathTagFunction = (pathEncoder = encodeURIPath) =>
         return acc + spaces + arrows;
       }, '');
 
-      throw new EricCompError(`Path parameters result in path with invalid segments:\n${path}\n${underline}`);
+      throw new EricCompanyError(
+        `Path parameters result in path with invalid segments:\n${path}\n${underline}`,
+      );
     }
 
     return path;
