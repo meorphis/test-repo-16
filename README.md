@@ -1,8 +1,8 @@
-# Eric Company TypeScript API Library!
+# Eric Comp! TypeScript API Library
 
 [![NPM version](https://img.shields.io/npm/v/eric-co.svg)](https://npmjs.org/package/eric-co) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/eric-co)
 
-This library provides convenient access to the Eric Company REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the Eric Comp REST API from server-side TypeScript or JavaScript.
 
 The REST API documentation can be found on [docs.eric-cooo.com](https://docs.eric-cooo.com). The full API of this library can be found in [api.md](api.md).
 
@@ -23,9 +23,9 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import EricCompany from 'eric-co';
+import EricComp from 'eric-co';
 
-const client = new EricCompany({
+const client = new EricComp({
   apiKey: process.env['PETSTORE_API_KEY'], // This is the default and can be omitted
 });
 
@@ -44,14 +44,14 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import EricCompany from 'eric-co';
+import EricComp from 'eric-co';
 
-const client = new EricCompany({
+const client = new EricComp({
   apiKey: process.env['PETSTORE_API_KEY'], // This is the default and can be omitted
 });
 
 async function main() {
-  const response: EricCompany.StoreInventoryResponse = await client.store.inventory();
+  const response: EricComp.StoreInventoryResponse = await client.store.inventory();
 }
 
 main();
@@ -69,7 +69,7 @@ a subclass of `APIError` will be thrown:
 ```ts
 async function main() {
   const response = await client.store.inventory().catch(async (err) => {
-    if (err instanceof EricCompany.APIError) {
+    if (err instanceof EricComp.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
       console.log(err.headers); // {server: 'nginx', ...}
@@ -106,7 +106,7 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const client = new EricCompany({
+const client = new EricComp({
   maxRetries: 0, // default is 2
 });
 
@@ -123,7 +123,7 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const client = new EricCompany({
+const client = new EricComp({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
@@ -149,7 +149,7 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 
 <!-- prettier-ignore -->
 ```ts
-const client = new EricCompany();
+const client = new EricComp();
 
 const response = await client.store.inventory().asResponse();
 console.log(response.headers.get('X-My-Header'));
@@ -170,13 +170,13 @@ console.log(response);
 
 The log level can be configured in two ways:
 
-1. Via the `ERIC_COMPANY_LOG` environment variable
+1. Via the `ERIC_COMP_LOG` environment variable
 2. Using the `logLevel` client option (overrides the environment variable if set)
 
 ```ts
-import EricCompany from 'eric-co';
+import EricComp from 'eric-co';
 
-const client = new EricCompany({
+const client = new EricComp({
   logLevel: 'debug', // Show all log messages
 });
 ```
@@ -202,13 +202,13 @@ When providing a custom logger, the `logLevel` option still controls which messa
 below the configured level will not be sent to your logger.
 
 ```ts
-import EricCompany from 'eric-co';
+import EricComp from 'eric-co';
 import pino from 'pino';
 
 const logger = pino();
 
-const client = new EricCompany({
-  logger: logger.child({ name: 'EricCompany' }),
+const client = new EricComp({
+  logger: logger.child({ name: 'EricComp' }),
   logLevel: 'debug', // Send all messages to pino, allowing it to filter
 });
 ```
@@ -272,10 +272,10 @@ globalThis.fetch = fetch;
 Or pass it to the client:
 
 ```ts
-import EricCompany from 'eric-co';
+import EricComp from 'eric-co';
 import fetch from 'my-fetch';
 
-const client = new EricCompany({ fetch });
+const client = new EricComp({ fetch });
 ```
 
 ### Fetch options
@@ -283,9 +283,9 @@ const client = new EricCompany({ fetch });
 If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
 
 ```ts
-import EricCompany from 'eric-co';
+import EricComp from 'eric-co';
 
-const client = new EricCompany({
+const client = new EricComp({
   fetchOptions: {
     // `RequestInit` options
   },
@@ -300,11 +300,11 @@ options to requests:
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
 
 ```ts
-import EricCompany from 'eric-co';
+import EricComp from 'eric-co';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
-const client = new EricCompany({
+const client = new EricComp({
   fetchOptions: {
     dispatcher: proxyAgent,
   },
@@ -314,9 +314,9 @@ const client = new EricCompany({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
 ```ts
-import EricCompany from 'eric-co';
+import EricComp from 'eric-co';
 
-const client = new EricCompany({
+const client = new EricComp({
   fetchOptions: {
     proxy: 'http://localhost:8888',
   },
@@ -326,10 +326,10 @@ const client = new EricCompany({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
 ```ts
-import EricCompany from 'npm:eric-co';
+import EricComp from 'npm:eric-co';
 
 const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
-const client = new EricCompany({
+const client = new EricComp({
   fetchOptions: {
     client: httpClient,
   },
