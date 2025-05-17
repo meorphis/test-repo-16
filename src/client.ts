@@ -57,7 +57,7 @@ export interface ClientOptions {
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['ERIC_COMPANIES_BASE_URL'].
+   * Defaults to process.env['ERIC_COMPANIONS_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -109,7 +109,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['ERIC_COMPANIES_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['ERIC_COMPANIONS_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -122,9 +122,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Eric Companies API.
+ * API Client for interfacing with the Eric Companions API.
  */
-export class EricCompanies {
+export class EricCompanions {
   apiKey: string;
 
   baseURL: string;
@@ -140,10 +140,10 @@ export class EricCompanies {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Eric Companies API.
+   * API Client for interfacing with the Eric Companions API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['PETSTORE_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['ERIC_COMPANIES_BASE_URL'] ?? https://petstore3.swagger.io/api/v3] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['ERIC_COMPANIONS_BASE_URL'] ?? https://petstore3.swagger.io/api/v3] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -152,13 +152,13 @@ export class EricCompanies {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('ERIC_COMPANIES_BASE_URL'),
+    baseURL = readEnv('ERIC_COMPANIONS_BASE_URL'),
     apiKey = readEnv('PETSTORE_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
-      throw new Errors.EricCompaniesError(
-        "The PETSTORE_API_KEY environment variable is missing or empty; either provide it, or instantiate the EricCompanies client with an apiKey option, like new EricCompanies({ apiKey: 'My API Key' }).",
+      throw new Errors.EricCompanionsError(
+        "The PETSTORE_API_KEY environment variable is missing or empty; either provide it, or instantiate the EricCompanions client with an apiKey option, like new EricCompanions({ apiKey: 'My API Key' }).",
       );
     }
 
@@ -169,14 +169,14 @@ export class EricCompanies {
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? EricCompanies.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? EricCompanions.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('ERIC_COMPANIES_LOG'), "process.env['ERIC_COMPANIES_LOG']", this) ??
+      parseLogLevel(readEnv('ERIC_COMPANIONS_LOG'), "process.env['ERIC_COMPANIONS_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
@@ -679,10 +679,10 @@ export class EricCompanies {
     }
   }
 
-  static EricCompanies = this;
+  static EricCompanions = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static EricCompaniesError = Errors.EricCompaniesError;
+  static EricCompanionsError = Errors.EricCompanionsError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -702,10 +702,10 @@ export class EricCompanies {
   store: API.Store = new API.Store(this);
   user: API.UserResource = new API.UserResource(this);
 }
-EricCompanies.Pets = Pets;
-EricCompanies.Store = Store;
-EricCompanies.UserResource = UserResource;
-export declare namespace EricCompanies {
+EricCompanions.Pets = Pets;
+EricCompanions.Store = Store;
+EricCompanions.UserResource = UserResource;
+export declare namespace EricCompanions {
   export type RequestOptions = Opts.RequestOptions;
 
   export {
