@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import EricCompositiont from 'eric-co';
+import EricCompositionta from 'eric-co';
 
-const client = new EricCompositiont({
+const client = new EricCompositionta({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
