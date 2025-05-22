@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { EricCompositiona } from 'eric-co';
+import { EricComposition } from 'eric-co';
 
-const { stringifyQuery } = EricCompositiona.prototype as any;
+const { stringifyQuery } = EricComposition.prototype as any;
 
 describe(stringifyQuery, () => {
   for (const [input, expected] of [
