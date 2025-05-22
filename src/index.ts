@@ -1,12 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { EricCompositioning as default } from './client';
+export { EricCompositiona as default } from './client';
 
 export { type Uploadable, toFile } from './core/uploads';
 export { APIPromise } from './core/api-promise';
-export { EricCompositioning, type ClientOptions } from './client';
+export { EricCompositiona, type ClientOptions } from './client';
 export {
-  EricCompositioningError,
+  EricCompositionaError,
   APIError,
   APIConnectionError,
   APIConnectionTimeoutError,
