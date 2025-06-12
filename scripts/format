@@ -9,4 +9,4 @@ echo "==> Running eslint --fix"
 
 echo "==> Running prettier --write"
 # format things eslint didn't
-./node_modules/.bin/prettier --write --cache --cache-strategy content --loglevel debug . '!**/dist' '!**/*.ts' '!**/*.mts' '!**/*.cts' '!**/*.js' '!**/*.mjs' '!**/*.cjs'
+./node_modules/.bin/prettier --write --cache --cache-strategy metadata . '!**/dist' '!**/*.ts' '!**/*.mts' '!**/*.cts' '!**/*.js' '!**/*.mjs' '!**/*.cjs'
