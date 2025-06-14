@@ -1,41 +1,37 @@
-# Eric Cooooooooooo TypeScript API Library!
+# Eric Compositiontar! TypeScript API Library
 
 [![NPM version](https://img.shields.io/npm/v/eric-co.svg)](https://npmjs.org/package/eric-co) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/eric-co)
 
-This library provides convenient access to the Eric Cooooooooooo REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the Eric Compositiontar REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found on [docs.eric-cooo.com](https://docs.eric-cooo.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.eric-coooo.com](https://docs.eric-coooo.com). The full API of this library can be found in [api.md](api.md).
 
 It is generated with [Stainless](https://www.stainless.com/)!
 
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:stainless-sdks-staging/eric-co-typescript.git
+npm install git+ssh://git@github.com:meorphis/test-repo-16.git
 ```
 
 > [!NOTE]
 > Once this package is [published to npm](https://app.stainless.com/docs/guides/publish), this will become: `npm install eric-co`
 
-## Usage
+## Usage :)
 
 The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import EricCooooooooooo from 'eric-co';
+import EricCompositiontar from 'eric-co';
 
-const client = new EricCooooooooooo({
+const client = new EricCompositiontar({
   apiKey: process.env['PETSTORE_API_KEY'], // This is the default and can be omitted
 });
 
-async function main() {
-  const order = await client.store.orders.create({ petId: 1, quantity: 1, status: 'placed' });
+const order = await client.store.orders.create({ petId: 1, quantity: 1, status: 'placed' });
 
-  console.log(order.id);
-}
-
-main();
+console.log(order.id);
 ```
 
 ### Request & Response types
@@ -44,17 +40,13 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import EricCooooooooooo from 'eric-co';
+import EricCompositiontar from 'eric-co';
 
-const client = new EricCooooooooooo({
+const client = new EricCompositiontar({
   apiKey: process.env['PETSTORE_API_KEY'], // This is the default and can be omitted
 });
 
-async function main() {
-  const response: EricCooooooooooo.StoreInventoryResponse = await client.store.inventory();
-}
-
-main();
+const response: EricCompositiontar.StoreInventoryResponse = await client.store.inventory();
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -67,19 +59,15 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const response = await client.store.inventory().catch(async (err) => {
-    if (err instanceof EricCooooooooooo.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
-}
-
-main();
+const response = await client.store.inventory().catch(async (err) => {
+  if (err instanceof EricCompositiontar.APIError) {
+    console.log(err.status); // 400
+    console.log(err.name); // BadRequestError
+    console.log(err.headers); // {server: 'nginx', ...}
+  } else {
+    throw err;
+  }
+});
 ```
 
 Error codes are as follows:
@@ -106,7 +94,7 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const client = new EricCooooooooooo({
+const client = new EricCompositiontar({
   maxRetries: 0, // default is 2
 });
 
@@ -123,7 +111,7 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const client = new EricCooooooooooo({
+const client = new EricCompositiontar({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
@@ -149,7 +137,7 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 
 <!-- prettier-ignore -->
 ```ts
-const client = new EricCooooooooooo();
+const client = new EricCompositiontar();
 
 const response = await client.store.inventory().asResponse();
 console.log(response.headers.get('X-My-Header'));
@@ -160,7 +148,7 @@ console.log(raw.headers.get('X-My-Header'));
 console.log(response);
 ```
 
-### Logging
+### Logging :0
 
 > [!IMPORTANT]
 > All log messages are intended for debugging only. The format and content of log messages
@@ -170,13 +158,13 @@ console.log(response);
 
 The log level can be configured in two ways:
 
-1. Via the `ERIC_COOOOOOOOOOO_LOG` environment variable
+1. Via the `ERIC_COMPOSITIONTAR_LOG` environment variable
 2. Using the `logLevel` client option (overrides the environment variable if set)
 
 ```ts
-import EricCooooooooooo from 'eric-co';
+import EricCompositiontar from 'eric-co';
 
-const client = new EricCooooooooooo({
+const client = new EricCompositiontar({
   logLevel: 'debug', // Show all log messages
 });
 ```
@@ -202,13 +190,13 @@ When providing a custom logger, the `logLevel` option still controls which messa
 below the configured level will not be sent to your logger.
 
 ```ts
-import EricCooooooooooo from 'eric-co';
+import EricCompositiontar from 'eric-co';
 import pino from 'pino';
 
 const logger = pino();
 
-const client = new EricCooooooooooo({
-  logger: logger.child({ name: 'EricCooooooooooo' }),
+const client = new EricCompositiontar({
+  logger: logger.child({ name: 'EricCompositiontar' }),
   logLevel: 'debug', // Send all messages to pino, allowing it to filter
 });
 ```
@@ -272,10 +260,10 @@ globalThis.fetch = fetch;
 Or pass it to the client:
 
 ```ts
-import EricCooooooooooo from 'eric-co';
+import EricCompositiontar from 'eric-co';
 import fetch from 'my-fetch';
 
-const client = new EricCooooooooooo({ fetch });
+const client = new EricCompositiontar({ fetch });
 ```
 
 ### Fetch options
@@ -283,9 +271,9 @@ const client = new EricCooooooooooo({ fetch });
 If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
 
 ```ts
-import EricCooooooooooo from 'eric-co';
+import EricCompositiontar from 'eric-co';
 
-const client = new EricCooooooooooo({
+const client = new EricCompositiontar({
   fetchOptions: {
     // `RequestInit` options
   },
@@ -300,11 +288,11 @@ options to requests:
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
 
 ```ts
-import EricCooooooooooo from 'eric-co';
+import EricCompositiontar from 'eric-co';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
-const client = new EricCooooooooooo({
+const client = new EricCompositiontar({
   fetchOptions: {
     dispatcher: proxyAgent,
   },
@@ -314,9 +302,9 @@ const client = new EricCooooooooooo({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
 ```ts
-import EricCooooooooooo from 'eric-co';
+import EricCompositiontar from 'eric-co';
 
-const client = new EricCooooooooooo({
+const client = new EricCompositiontar({
   fetchOptions: {
     proxy: 'http://localhost:8888',
   },
@@ -326,10 +314,10 @@ const client = new EricCooooooooooo({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
 ```ts
-import EricCooooooooooo from 'npm:eric-co';
+import EricCompositiontar from 'npm:eric-co';
 
 const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
-const client = new EricCooooooooooo({
+const client = new EricCompositiontar({
   fetchOptions: {
     client: httpClient,
   },
@@ -348,7 +336,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks-staging/eric-co-typescript/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/meorphis/test-repo-16/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 

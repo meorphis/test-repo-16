@@ -7,8 +7,8 @@
  * messages in cases where an environment isn't fully supported.
  */
 
-import { type Fetch } from './builtin-types';
-import { type ReadableStream } from './shim-types';
+import type { Fetch } from './builtin-types';
+import type { ReadableStream } from './shim-types';
 
 export function getDefaultFetch(): Fetch {
   if (typeof fetch !== 'undefined') {
@@ -16,7 +16,7 @@ export function getDefaultFetch(): Fetch {
   }
 
   throw new Error(
-    '`fetch` is not defined as a global; Either pass `fetch` to the client, `new EricCooooooooooo({ fetch })` or polyfill the global, `globalThis.fetch = fetch`',
+    '`fetch` is not defined as a global; Either pass `fetch` to the client, `new EricCompositiontar({ fetch })` or polyfill the global, `globalThis.fetch = fetch`',
   );
 }
 
