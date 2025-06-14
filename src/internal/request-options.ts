@@ -3,8 +3,10 @@
 import { NullableHeaders } from './headers';
 
 import type { BodyInit } from './builtin-types';
+import { isEmptyObj, hasOwn } from './utils/values';
+import { Stream } from '../core/streaming';
 import type { HTTPMethod, MergedRequestInit } from './types';
-import { type HeadersLike } from './headers';
+import { type HeadersLike, buildHeaders } from './headers';
 
 export type FinalRequestOptions = RequestOptions & { method: HTTPMethod; path: string };
 
@@ -22,10 +24,14 @@ export type RequestOptions = {
   idempotencyKey?: string;
 
   __binaryResponse?: boolean | undefined;
+
 };
 
 export type EncodedContent = { bodyHeaders: HeadersLike; body: BodyInit };
-export type RequestEncoder = (request: { headers: NullableHeaders; body: unknown }) => EncodedContent;
+export type RequestEncoder = (request: {
+  headers: NullableHeaders;
+  body: unknown;
+}) => EncodedContent;
 
 export const FallbackEncoder: RequestEncoder = ({ headers, body }) => {
   return {
