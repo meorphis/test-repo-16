@@ -1,8 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import EricCompositiontar, { toFile } from 'eric-co';
+import EricCompositiontar from 'eric-co';
 
-const client = new EricCompositiontar({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
+const client = new EricCompositiontar({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 describe('resource user', () => {
   // skipped: tests are disabled for the time being
@@ -20,9 +23,21 @@ describe('resource user', () => {
   // skipped: tests are disabled for the time being
   test.skip('create: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.user.create({ id: 10, email: 'john@email.com', firstName: 'John', lastName: 'James', password: '12345', phone: '12345', username: 'theUser', userStatus: 1 }, { path: '/_stainless_unknown_path' }))
-      .rejects
-      .toThrow(EricCompositiontar.NotFoundError);
+    await expect(
+      client.user.create(
+        {
+          id: 10,
+          email: 'john@email.com',
+          firstName: 'John',
+          lastName: 'James',
+          password: '12345',
+          phone: '12345',
+          username: 'theUser',
+          userStatus: 1,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(EricCompositiontar.NotFoundError);
   });
 
   // skipped: tests are disabled for the time being
@@ -52,9 +67,22 @@ describe('resource user', () => {
   // skipped: tests are disabled for the time being
   test.skip('update: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.user.update('username', { id: 10, email: 'john@email.com', firstName: 'John', lastName: 'James', password: '12345', phone: '12345', username: 'theUser', userStatus: 1 }, { path: '/_stainless_unknown_path' }))
-      .rejects
-      .toThrow(EricCompositiontar.NotFoundError);
+    await expect(
+      client.user.update(
+        'username',
+        {
+          id: 10,
+          email: 'john@email.com',
+          firstName: 'John',
+          lastName: 'James',
+          password: '12345',
+          phone: '12345',
+          username: 'theUser',
+          userStatus: 1,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(EricCompositiontar.NotFoundError);
   });
 
   // skipped: tests are disabled for the time being
@@ -84,9 +112,25 @@ describe('resource user', () => {
   // skipped: tests are disabled for the time being
   test.skip('createWithList: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.user.createWithList({ items: [{ id: 10, email: 'john@email.com', firstName: 'John', lastName: 'James', password: '12345', phone: '12345', username: 'theUser', userStatus: 1 }] }, { path: '/_stainless_unknown_path' }))
-      .rejects
-      .toThrow(EricCompositiontar.NotFoundError);
+    await expect(
+      client.user.createWithList(
+        {
+          items: [
+            {
+              id: 10,
+              email: 'john@email.com',
+              firstName: 'John',
+              lastName: 'James',
+              password: '12345',
+              phone: '12345',
+              username: 'theUser',
+              userStatus: 1,
+            },
+          ],
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(EricCompositiontar.NotFoundError);
   });
 
   // skipped: tests are disabled for the time being
@@ -104,9 +148,9 @@ describe('resource user', () => {
   // skipped: tests are disabled for the time being
   test.skip('login: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.user.login({ password: 'password', username: 'username' }, { path: '/_stainless_unknown_path' }))
-      .rejects
-      .toThrow(EricCompositiontar.NotFoundError);
+    await expect(
+      client.user.login({ password: 'password', username: 'username' }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(EricCompositiontar.NotFoundError);
   });
 
   // skipped: tests are disabled for the time being
