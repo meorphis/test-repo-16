@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as UserAPI from './user';
 import { APIPromise } from '../core/api-promise';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
@@ -39,16 +40,8 @@ export class UserResource extends APIResource {
    * await client.user.update('username');
    * ```
    */
-  update(
-    existingUsername: string,
-    body: UserUpdateParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<void> {
-    return this._client.put(path`/user/${existingUsername}`, {
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+  update(existingUsername: string, body: UserUpdateParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
+    return this._client.put(path`/user/${existingUsername}`, { body, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -60,10 +53,7 @@ export class UserResource extends APIResource {
    * ```
    */
   delete(username: string, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/user/${username}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/user/${username}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 
   /**
@@ -74,11 +64,8 @@ export class UserResource extends APIResource {
    * const user = await client.user.createWithList();
    * ```
    */
-  createWithList(
-    params: UserCreateWithListParams | null | undefined = undefined,
-    options?: RequestOptions,
-  ): APIPromise<User> {
-    const { items } = params ?? {};
+  createWithList(params: UserCreateWithListParams | null | undefined = undefined, options?: RequestOptions): APIPromise<User> {
+    const { items } = params ?? {}
     return this._client.post('/user/createWithList', { body: items, ...options });
   }
 
@@ -103,10 +90,7 @@ export class UserResource extends APIResource {
    * ```
    */
   logout(options?: RequestOptions): APIPromise<void> {
-    return this._client.get('/user/logout', {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.get('/user/logout', { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
@@ -131,7 +115,7 @@ export interface User {
   userStatus?: number;
 }
 
-export type UserLoginResponse = string;
+export type UserLoginResponse = string
 
 export interface UserCreateParams {
   id?: number;
@@ -198,6 +182,6 @@ export declare namespace UserResource {
     type UserCreateParams as UserCreateParams,
     type UserUpdateParams as UserUpdateParams,
     type UserCreateWithListParams as UserCreateWithListParams,
-    type UserLoginParams as UserLoginParams,
+    type UserLoginParams as UserLoginParams
   };
 }
