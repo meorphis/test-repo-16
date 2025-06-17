@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import * as StoreAPI from './store';
 import * as OrdersAPI from './orders';
 import { OrderCreateParams, Orders } from './orders';
 import { APIPromise } from '../../core/api-promise';
@@ -23,17 +22,12 @@ export class Store extends APIResource {
   }
 }
 
-export type StoreInventoryResponse = Record<string, number>
+export type StoreInventoryResponse = Record<string, number>;
 
 Store.Orders = Orders;
 
 export declare namespace Store {
-  export {
-    type StoreInventoryResponse as StoreInventoryResponse
-  };
+  export { type StoreInventoryResponse as StoreInventoryResponse };
 
-  export {
-    Orders as Orders,
-    type OrderCreateParams as OrderCreateParams
-  };
+  export { Orders as Orders, type OrderCreateParams as OrderCreateParams };
 }
