@@ -1,6 +1,6 @@
 # Eric Compositiontar TypeScript API Library
 
-[![NPM version](<https://img.shields.io/npm/v/eric-co.svg?label=npm%20(stable)>)](https://npmjs.org/package/eric-co) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/eric-co)
+[![NPM version](https://img.shields.io/npm/v/eric-co.svg)](https://npmjs.org/package/eric-co) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/eric-co)
 
 This library provides convenient access to the Eric Compositiontar REST API from server-side TypeScript or JavaScript.
 
