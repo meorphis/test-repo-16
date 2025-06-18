@@ -2,7 +2,7 @@
 
 import type { EricCompositiontar } from '../client';
 
-export class APIResource {
+export abstract class APIResource {
   protected _client: EricCompositiontar;
 
   constructor(client: EricCompositiontar) {
