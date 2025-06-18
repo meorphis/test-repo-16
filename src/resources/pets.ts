@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
-import * as PetsAPI from './pets';
 import { APIPromise } from '../core/api-promise';
 import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
@@ -59,7 +58,10 @@ export class Pets extends APIResource {
    * ```
    */
   delete(petID: number, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/pet/${petID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+    return this._client.delete(path`/pet/${petID}`, {
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   /**
@@ -70,7 +72,10 @@ export class Pets extends APIResource {
    * const pets = await client.pets.findByStatus();
    * ```
    */
-  findByStatus(query: PetFindByStatusParams | null | undefined = {}, options?: RequestOptions): APIPromise<PetFindByStatusResponse> {
+  findByStatus(
+    query: PetFindByStatusParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PetFindByStatusResponse> {
     return this._client.get('/pet/findByStatus', { query, ...options });
   }
 
@@ -83,7 +88,10 @@ export class Pets extends APIResource {
    * const pets = await client.pets.findByTags();
    * ```
    */
-  findByTags(query: PetFindByTagsParams | null | undefined = {}, options?: RequestOptions): APIPromise<PetFindByTagsResponse> {
+  findByTags(
+    query: PetFindByTagsParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PetFindByTagsResponse> {
     return this._client.get('/pet/findByTags', { query, ...options });
   }
 
@@ -95,9 +103,17 @@ export class Pets extends APIResource {
    * await client.pets.updateByID(0);
    * ```
    */
-  updateByID(petID: number, params: PetUpdateByIDParams | null | undefined = {}, options?: RequestOptions): APIPromise<void> {
-    const { name, status } = params ?? {}
-    return this._client.post(path`/pet/${petID}`, { query: { name, status }, ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
+  updateByID(
+    petID: number,
+    params: PetUpdateByIDParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    const { name, status } = params ?? {};
+    return this._client.post(path`/pet/${petID}`, {
+      query: { name, status },
+      ...options,
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
+    });
   }
 
   /**
@@ -108,9 +124,18 @@ export class Pets extends APIResource {
    * const apiResponse = await client.pets.uploadImage(0);
    * ```
    */
-  uploadImage(petID: number, params: PetUploadImageParams | null | undefined = undefined, options?: RequestOptions): APIPromise<APIResponse> {
-    const { additionalMetadata, image } = params ?? {}
-    return this._client.post(path`/pet/${petID}/uploadImage`, { query: { additionalMetadata }, body: image, ...options, headers: buildHeaders([{'Content-Type': 'application/octet-stream'}, options?.headers]) });
+  uploadImage(
+    petID: number,
+    params: PetUploadImageParams | null | undefined = undefined,
+    options?: RequestOptions,
+  ): APIPromise<APIResponse> {
+    const { additionalMetadata, image } = params ?? {};
+    return this._client.post(path`/pet/${petID}/uploadImage`, {
+      query: { additionalMetadata },
+      body: image,
+      ...options,
+      headers: buildHeaders([{ 'Content-Type': 'application/octet-stream' }, options?.headers]),
+    });
   }
 }
 
@@ -153,9 +178,9 @@ export namespace Pet {
   }
 }
 
-export type PetFindByStatusResponse = Array<Pet>
+export type PetFindByStatusResponse = Array<Pet>;
 
-export type PetFindByTagsResponse = Array<Pet>
+export type PetFindByTagsResponse = Array<Pet>;
 
 export interface PetCreateParams {
   name: string;
@@ -268,6 +293,6 @@ export declare namespace Pets {
     type PetFindByStatusParams as PetFindByStatusParams,
     type PetFindByTagsParams as PetFindByTagsParams,
     type PetUpdateByIDParams as PetUpdateByIDParams,
-    type PetUploadImageParams as PetUploadImageParams
+    type PetUploadImageParams as PetUploadImageParams,
   };
 }
