@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
+import * as OrdersAPI from './orders';
 import * as Shared from '../shared';
 import { APIPromise } from '../../core/api-promise';
 import { buildHeaders } from '../../internal/headers';
@@ -16,10 +17,7 @@ export class Orders extends APIResource {
    * const order = await client.store.orders.create();
    * ```
    */
-  create(
-    body: OrderCreateParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<Shared.Order> {
+  create(body: OrderCreateParams | null | undefined = {}, options?: RequestOptions): APIPromise<Shared.Order> {
     return this._client.post('/store/order', { body, ...options });
   }
 
@@ -46,10 +44,7 @@ export class Orders extends APIResource {
    * ```
    */
   delete(orderID: number, options?: RequestOptions): APIPromise<void> {
-    return this._client.delete(path`/store/order/${orderID}`, {
-      ...options,
-      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
-    });
+    return this._client.delete(path`/store/order/${orderID}`, { ...options, headers: buildHeaders([{Accept: '*/*'}, options?.headers]) });
   }
 }
 
@@ -71,5 +66,7 @@ export interface OrderCreateParams {
 }
 
 export declare namespace Orders {
-  export { type OrderCreateParams as OrderCreateParams };
+  export {
+    type OrderCreateParams as OrderCreateParams
+  };
 }

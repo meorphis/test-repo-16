@@ -12,32 +12,26 @@ type NotAny<T> = [unknown] extends [T] ? never : T;
 /**
  * Some environments overload the global fetch function, and Parameters<T> only gets the last signature.
  */
-type OverloadedParameters<T> =
-  T extends (
-    {
-      (...args: infer A): unknown;
-      (...args: infer B): unknown;
-      (...args: infer C): unknown;
-      (...args: infer D): unknown;
-    }
-  ) ?
-    A | B | C | D
-  : T extends (
-    {
+type OverloadedParameters<T> = T extends {
+  (...args: infer A): unknown;
+  (...args: infer B): unknown;
+  (...args: infer C): unknown;
+  (...args: infer D): unknown;
+}
+  ? A | B | C | D
+  : T extends {
       (...args: infer A): unknown;
       (...args: infer B): unknown;
       (...args: infer C): unknown;
     }
-  ) ?
-    A | B | C
-  : T extends (
-    {
+  ? A | B | C
+  : T extends {
       (...args: infer A): unknown;
       (...args: infer B): unknown;
     }
-  ) ?
-    A | B
-  : T extends (...args: infer A) => unknown ? A
+  ? A | B
+  : T extends (...args: infer A) => unknown
+  ? A
   : never;
 
 /* eslint-disable */
