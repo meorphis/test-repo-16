@@ -4,7 +4,7 @@ import type { EricCompositiontar } from '../client';
 import { ReadableStreamFrom } from './shims';
 
 export type BlobPart = string | ArrayBuffer | ArrayBufferView | Blob | DataView;
-type FsReadStream = AsyncIterable<Uint8Array> & { path: string | { toString(): string } };
+type FsReadStream = AsyncIterable<Uint8Array> & { path: string | {toString(): string} };
 
 // https://github.com/oven-sh/bun/issues/5980
 interface BunFile extends Blob {
@@ -23,7 +23,7 @@ export const checkFileSupport = () => {
         : ''),
     );
   }
-};
+}
 
 /**
  * Typically, this is a native "File" class.
@@ -40,11 +40,7 @@ export type Uploadable = File | Response | FsReadStream | BunFile;
  * Construct a `File` instance. This is used to ensure a helpful error is thrown
  * for environments that don't define a global `File` yet.
  */
-export function makeFile(
-  fileBits: BlobPart[],
-  fileName: string | undefined,
-  options?: FilePropertyBag,
-): File {
+export function makeFile(fileBits: BlobPart[], fileName: string | undefined, options?: FilePropertyBag): File {
   checkFileSupport();
   return new File(fileBits as any, fileName ?? 'unknown_file', options);
 }
@@ -90,7 +86,7 @@ export const multipartFormRequestOptions = async (
   return { ...opts, body: await createForm(opts.body, fetch) };
 };
 
-const supportsFormDataMap = /** @__PURE__ */ new WeakMap<Fetch, Promise<boolean>>();
+const supportsFormDataMap = new WeakMap<Fetch, Promise<boolean>>();
 
 /**
  * node-fetch doesn't support the global FormData object in recent node versions. Instead of sending
@@ -138,7 +134,7 @@ export const createForm = async <T = Record<string, unknown>>(
 
 // We check for Blob not File because Bun.File doesn't inherit from File,
 // but they both inherit from Blob and have a `name` property at runtime.
-const isNamedBlob = (value: unknown) => value instanceof Blob && 'name' in value;
+const isNamedBlob = (value: object) => (value instanceof Blob && 'name' in value);
 
 const isUploadable = (value: unknown) =>
   typeof value === 'object' &&
