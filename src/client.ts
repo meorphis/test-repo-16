@@ -5,7 +5,6 @@ import type { HTTPMethod, PromiseOrValue, MergedRequestInit, FinalizedRequestIni
 import { uuid4 } from './internal/utils/uuid';
 import { validatePositiveInteger, isAbsoluteURL, safeJSON } from './internal/utils/values';
 import { sleep } from './internal/utils/sleep';
-import { type Logger, type LogLevel, parseLogLevel } from './internal/utils/log';
 export type { Logger, LogLevel } from './internal/utils/log';
 import { castToError, isAbortError } from './internal/errors';
 import type { APIResponseProps } from './internal/parse';
@@ -18,9 +17,6 @@ import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
-import { type Fetch } from './internal/builtin-types';
-import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
-import { FinalRequestOptions, RequestOptions } from './internal/request-options';
 import {
   APIResponse,
   Pet,
@@ -43,10 +39,19 @@ import {
   UserResource,
   UserUpdateParams,
 } from './resources/user';
-import { readEnv } from './internal/utils/env';
-import { formatRequestDetails, loggerFor } from './internal/utils/log';
-import { isEmptyObj } from './internal/utils/values';
 import { Store, StoreInventoryResponse } from './resources/store/store';
+import { type Fetch } from './internal/builtin-types';
+import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
+import { FinalRequestOptions, RequestOptions } from './internal/request-options';
+import { readEnv } from './internal/utils/env';
+import {
+  type LogLevel,
+  type Logger,
+  formatRequestDetails,
+  loggerFor,
+  parseLogLevel,
+} from './internal/utils/log';
+import { isEmptyObj } from './internal/utils/values';
 
 export interface ClientOptions {
   /**
@@ -57,7 +62,7 @@ export interface ClientOptions {
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['ERIC_COOOOOOOOOOO_BASE_URL'].
+   * Defaults to process.env['ERIC_COMPOSITIONTAR_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -109,7 +114,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['ERIC_COOOOOOOOOOO_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['ERIC_COMPOSITIONTAR_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -122,9 +127,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Eric Cooooooooooo API.
+ * API Client for interfacing with the Eric Compositiontar API.
  */
-export class EricCooooooooooo {
+export class EricCompositiontar {
   apiKey: string;
 
   baseURL: string;
@@ -140,10 +145,10 @@ export class EricCooooooooooo {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Eric Cooooooooooo API.
+   * API Client for interfacing with the Eric Compositiontar API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['PETSTORE_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['ERIC_COOOOOOOOOOO_BASE_URL'] ?? https://petstore3.swagger.io/api/v3] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['ERIC_COMPOSITIONTAR_BASE_URL'] ?? https://petstore3.swagger.io/api/v3] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -152,13 +157,13 @@ export class EricCooooooooooo {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('ERIC_COOOOOOOOOOO_BASE_URL'),
+    baseURL = readEnv('ERIC_COMPOSITIONTAR_BASE_URL'),
     apiKey = readEnv('PETSTORE_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
-      throw new Errors.EricCoooooooooooError(
-        "The PETSTORE_API_KEY environment variable is missing or empty; either provide it, or instantiate the EricCooooooooooo client with an apiKey option, like new EricCooooooooooo({ apiKey: 'My API Key' }).",
+      throw new Errors.EricCompositiontarError(
+        "The PETSTORE_API_KEY environment variable is missing or empty; either provide it, or instantiate the EricCompositiontar client with an apiKey option, like new EricCompositiontar({ apiKey: 'My API Key' }).",
       );
     }
 
@@ -169,14 +174,14 @@ export class EricCooooooooooo {
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? EricCooooooooooo.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? EricCompositiontar.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('ERIC_COOOOOOOOOOO_LOG'), "process.env['ERIC_COOOOOOOOOOO_LOG']", this) ??
+      parseLogLevel(readEnv('ERIC_COMPOSITIONTAR_LOG'), "process.env['ERIC_COMPOSITIONTAR_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
@@ -199,10 +204,18 @@ export class EricCooooooooooo {
       timeout: this.timeout,
       logger: this.logger,
       logLevel: this.logLevel,
+      fetch: this.fetch,
       fetchOptions: this.fetchOptions,
       apiKey: this.apiKey,
       ...options,
     });
+  }
+
+  /**
+   * Check whether the base URL is set to its default.
+   */
+  #baseURLOverridden(): boolean {
+    return this.baseURL !== 'https://petstore3.swagger.io/api/v3';
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -238,11 +251,16 @@ export class EricCooooooooooo {
     return Errors.APIError.generate(status, error, message, headers);
   }
 
-  buildURL(path: string, query: Record<string, unknown> | null | undefined): string {
+  buildURL(
+    path: string,
+    query: Record<string, unknown> | null | undefined,
+    defaultBaseURL?: string | undefined,
+  ): string {
+    const baseURL = (!this.#baseURLOverridden() && defaultBaseURL) || this.baseURL;
     const url =
       isAbsoluteURL(path) ?
         new URL(path)
-      : new URL(this.baseURL + (this.baseURL.endsWith('/') && path.startsWith('/') ? path.slice(1) : path));
+      : new URL(baseURL + (baseURL.endsWith('/') && path.startsWith('/') ? path.slice(1) : path));
 
     const defaultQuery = this.defaultQuery();
     if (!isEmptyObj(defaultQuery)) {
@@ -583,9 +601,9 @@ export class EricCooooooooooo {
     { retryCount = 0 }: { retryCount?: number } = {},
   ): { req: FinalizedRequestInit; url: string; timeout: number } {
     const options = { ...inputOptions };
-    const { method, path, query } = options;
+    const { method, path, query, defaultBaseURL } = options;
 
-    const url = this.buildURL(path!, query as Record<string, unknown>);
+    const url = this.buildURL(path!, query as Record<string, unknown>, defaultBaseURL);
     if ('timeout' in options) validatePositiveInteger('timeout', options.timeout);
     options.timeout = options.timeout ?? this.timeout;
     const { bodyHeaders, body } = this.buildBody({ options });
@@ -679,10 +697,10 @@ export class EricCooooooooooo {
     }
   }
 
-  static EricCooooooooooo = this;
+  static EricCompositiontar = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static EricCoooooooooooError = Errors.EricCoooooooooooError;
+  static EricCompositiontarError = Errors.EricCompositiontarError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -702,10 +720,10 @@ export class EricCooooooooooo {
   store: API.Store = new API.Store(this);
   user: API.UserResource = new API.UserResource(this);
 }
-EricCooooooooooo.Pets = Pets;
-EricCooooooooooo.Store = Store;
-EricCooooooooooo.UserResource = UserResource;
-export declare namespace EricCooooooooooo {
+EricCompositiontar.Pets = Pets;
+EricCompositiontar.Store = Store;
+EricCompositiontar.UserResource = UserResource;
+export declare namespace EricCompositiontar {
   export type RequestOptions = Opts.RequestOptions;
 
   export {

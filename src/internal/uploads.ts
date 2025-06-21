@@ -1,6 +1,6 @@
 import { type RequestOptions } from './request-options';
 import type { FilePropertyBag, Fetch } from './builtin-types';
-import type { EricCooooooooooo } from '../client';
+import type { EricCompositiontar } from '../client';
 import { ReadableStreamFrom } from './shims';
 
 export type BlobPart = string | ArrayBuffer | ArrayBufferView | Blob | DataView;
@@ -74,7 +74,7 @@ export const isAsyncIterable = (value: any): value is AsyncIterable<any> =>
  */
 export const maybeMultipartFormRequestOptions = async (
   opts: RequestOptions,
-  fetch: EricCooooooooooo | Fetch,
+  fetch: EricCompositiontar | Fetch,
 ): Promise<RequestOptions> => {
   if (!hasUploadableValue(opts.body)) return opts;
 
@@ -85,12 +85,12 @@ type MultipartFormRequestOptions = Omit<RequestOptions, 'body'> & { body: unknow
 
 export const multipartFormRequestOptions = async (
   opts: MultipartFormRequestOptions,
-  fetch: EricCooooooooooo | Fetch,
+  fetch: EricCompositiontar | Fetch,
 ): Promise<RequestOptions> => {
   return { ...opts, body: await createForm(opts.body, fetch) };
 };
 
-const supportsFormDataMap = new WeakMap<Fetch, Promise<boolean>>();
+const supportsFormDataMap = /** @__PURE__ */ new WeakMap<Fetch, Promise<boolean>>();
 
 /**
  * node-fetch doesn't support the global FormData object in recent node versions. Instead of sending
@@ -98,7 +98,7 @@ const supportsFormDataMap = new WeakMap<Fetch, Promise<boolean>>();
  * This function detects if the fetch function provided supports the global FormData object to avoid
  * confusing error messages later on.
  */
-function supportsFormData(fetchObject: EricCooooooooooo | Fetch): Promise<boolean> {
+function supportsFormData(fetchObject: EricCompositiontar | Fetch): Promise<boolean> {
   const fetch: Fetch = typeof fetchObject === 'function' ? fetchObject : (fetchObject as any).fetch;
   const cached = supportsFormDataMap.get(fetch);
   if (cached) return cached;
@@ -124,7 +124,7 @@ function supportsFormData(fetchObject: EricCooooooooooo | Fetch): Promise<boolea
 
 export const createForm = async <T = Record<string, unknown>>(
   body: T | undefined,
-  fetch: EricCooooooooooo | Fetch,
+  fetch: EricCompositiontar | Fetch,
 ): Promise<FormData> => {
   if (!(await supportsFormData(fetch))) {
     throw new TypeError(
@@ -138,7 +138,7 @@ export const createForm = async <T = Record<string, unknown>>(
 
 // We check for Blob not File because Bun.File doesn't inherit from File,
 // but they both inherit from Blob and have a `name` property at runtime.
-const isNamedBlob = (value: object) => value instanceof Blob && 'name' in value;
+const isNamedBlob = (value: unknown) => value instanceof Blob && 'name' in value;
 
 const isUploadable = (value: unknown) =>
   typeof value === 'object' &&
