@@ -1,4 +1,4 @@
-# Mixedbread API TypeScript SDK API Library
+# meorphis-test API TypeScript SDK API Library
 
 [![NPM version](<https://img.shields.io/npm/v/@mixedbread/sdk.svg?label=npm%20(stable)>)](https://npmjs.org/package/@mixedbread/sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@mixedbread/sdk)
 
