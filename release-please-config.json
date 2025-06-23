@@ -2,7 +2,6 @@
   "packages": {
     ".": {},
     "packages/cli": {
-      "release-type": "node",
       "package-name": "@mixedbread/cli"
     }
   },
