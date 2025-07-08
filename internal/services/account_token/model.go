@@ -4,6 +4,7 @@ package account_token
 
 import (
 	"github.com/cloudflare/terraform-provider-cloudflare/internal/apijson"
+	"github.com/cloudflare/terraform-provider-cloudflare/internal/customfield"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -19,6 +20,12 @@ type AccountTokenModel struct {
 	Policies   *[]*AccountTokenPoliciesModel `tfsdk:"policies" json:"policies,required"`
 	ExpiresOn  timetypes.RFC3339             `tfsdk:"expires_on" json:"expires_on,optional" format:"date-time"`
 	NotBefore  timetypes.RFC3339             `tfsdk:"not_before" json:"not_before,optional" format:"date-time"`
+<<<<<<< HEAD
+||||||| 1183c599
+	Status     types.String                  `tfsdk:"status" json:"status,optional"`
+=======
+	Status     types.String                  `tfsdk:"status" json:"status,computed"`
+>>>>>>> origin/integrated--merge-conflict
 	Condition  *AccountTokenConditionModel   `tfsdk:"condition" json:"condition,optional"`
 	Status     types.String                  `tfsdk:"status" json:"status,computed_optional"`
 	IssuedOn   timetypes.RFC3339             `tfsdk:"issued_on" json:"issued_on,computed" format:"date-time"`
@@ -43,9 +50,9 @@ type AccountTokenPoliciesModel struct {
 }
 
 type AccountTokenPoliciesPermissionGroupsModel struct {
-	ID   types.String                                   `tfsdk:"id" json:"id,required"`
-	Meta *AccountTokenPoliciesPermissionGroupsMetaModel `tfsdk:"meta" json:"meta,optional"`
-	Name types.String                                   `tfsdk:"name" json:"name,computed"`
+	ID   types.String                                                            `tfsdk:"id" json:"id,required"`
+	Meta customfield.NestedObject[AccountTokenPoliciesPermissionGroupsMetaModel] `tfsdk:"meta" json:"meta,computed_optional"`
+	Name types.String                                                            `tfsdk:"name" json:"name,computed"`
 }
 
 type AccountTokenPoliciesPermissionGroupsMetaModel struct {

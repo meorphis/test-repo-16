@@ -20,11 +20,11 @@ type DNSRecordModel struct {
 	Name              types.String                                     `tfsdk:"name" json:"name,required"`
 	Type              types.String                                     `tfsdk:"type" json:"type,required"`
 	Comment           types.String                                     `tfsdk:"comment" json:"comment,optional"`
-	Content           types.String                                     `tfsdk:"content" json:"content,optional"`
+	Content           types.String                                     `tfsdk:"content" json:"content,computed_optional"`
 	Priority          types.Float64                                    `tfsdk:"priority" json:"priority,optional"`
 	Data              *DNSRecordDataModel                              `tfsdk:"data" json:"data,optional"`
 	Proxied           types.Bool                                       `tfsdk:"proxied" json:"proxied,computed_optional"`
-	TTL               types.Float64                                    `tfsdk:"ttl" json:"ttl,computed_optional"`
+	TTL               types.Float64                                    `tfsdk:"ttl" json:"ttl,required"`
 	Tags              customfield.List[types.String]                   `tfsdk:"tags" json:"tags,computed_optional"`
 	Settings          customfield.NestedObject[DNSRecordSettingsModel] `tfsdk:"settings" json:"settings,computed_optional"`
 	CommentModifiedOn timetypes.RFC3339                                `tfsdk:"comment_modified_on" json:"comment_modified_on,computed" format:"date-time"`
@@ -44,7 +44,7 @@ func (m DNSRecordModel) MarshalJSONForUpdate(state DNSRecordModel) (data []byte,
 }
 
 type DNSRecordDataModel struct {
-	Flags         types.Dynamic `tfsdk:"flags" json:"flags,optional"`
+	Flags         types.Float64 `tfsdk:"flags" json:"flags,optional"`
 	Tag           types.String  `tfsdk:"tag" json:"tag,optional"`
 	Value         types.String  `tfsdk:"value" json:"value,optional"`
 	Algorithm     types.Float64 `tfsdk:"algorithm" json:"algorithm,optional"`

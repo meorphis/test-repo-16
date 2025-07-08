@@ -14,6 +14,7 @@ import (
 	"github.com/cloudflare/terraform-provider-cloudflare/internal/apijson"
 	"github.com/cloudflare/terraform-provider-cloudflare/internal/importpath"
 	"github.com/cloudflare/terraform-provider-cloudflare/internal/logging"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -60,6 +61,11 @@ func (r *ZeroTrustAccessIdentityProviderResource) Create(ctx context.Context, re
 
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(loadConfigSensitiveValuesForWriting(ctx, data, &req.Config)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
@@ -153,11 +159,15 @@ func (r *ZeroTrustAccessIdentityProviderResource) Update(ctx context.Context, re
 	}
 	data = &env.Result
 
+	normalizeReadZeroTrustIDPData(ctx, data, &req.State)
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
 func (r *ZeroTrustAccessIdentityProviderResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var data *ZeroTrustAccessIdentityProviderModel
+	secret := types.StringNull()
+	req.State.GetAttribute(ctx, path.Root("scim_config").AtName("secret"), &secret)
 
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
 
@@ -199,7 +209,10 @@ func (r *ZeroTrustAccessIdentityProviderResource) Read(ctx context.Context, req 
 	}
 	data = &env.Result
 
+	normalizeReadZeroTrustIDPData(ctx, data, &req.State)
+
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+	resp.Diagnostics.Append(resp.State.SetAttribute(ctx, path.Root("scim_config").AtName("secret"), secret)...)
 }
 
 func (r *ZeroTrustAccessIdentityProviderResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
@@ -287,6 +300,5 @@ func (r *ZeroTrustAccessIdentityProviderResource) ImportState(ctx context.Contex
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *ZeroTrustAccessIdentityProviderResource) ModifyPlan(_ context.Context, _ resource.ModifyPlanRequest, _ *resource.ModifyPlanResponse) {
-
+func (r *ZeroTrustAccessIdentityProviderResource) ModifyPlan(ctx context.Context, req resource.ModifyPlanRequest, res *resource.ModifyPlanResponse) {
 }
