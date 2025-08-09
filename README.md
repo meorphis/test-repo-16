@@ -1,56 +1,37 @@
-# meorphis-test API TypeScript SDK API Library
+# Eric Compositiontarr TypeScript API Library
 
-[![NPM version](<https://img.shields.io/npm/v/@mixedbread/sdk.svg?label=npm%20(stable)>)](https://npmjs.org/package/@mixedbread/sdk) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@mixedbread/sdk)
+[![NPM version](<https://img.shields.io/npm/v/eric-co.svg?label=npm%20(stable)>)](https://npmjs.org/package/eric-co) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/eric-co)
 
-This library provides convenient access to the Mixedbread REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the Eric Compositiontarr REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found on [mixedbread.com](https://mixedbread.com/docs). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.eric-coooo.com](https://docs.eric-coooo.com). The full API of this library can be found in [api.md](api.md).
 
-It is generated with [Stainless](https://www.stainless.com/).
+It is generated with [Stainless](https://www.stainless.com/)!
 
 ## Installation
 
 ```sh
-npm install @mixedbread/sdk
+npm install git+ssh://git@github.com:stainless-sdks-staging/eric-co-typescript.git
 ```
 
-### CLI Installation
+> [!NOTE]
+> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install eric-co`
 
-The Mixedbread SDK automatically installs the `mxbai` CLI tool globally when you install the SDK. This provides a convenient command-line interface for managing vector stores and files.
-
-If the automatic installation is skipped (e.g., in CI environments), you can install the CLI manually:
-
-```sh
-npm install -g @mixedbread/cli
-```
-
-Or run the interactive setup:
-
-```sh
-npm run setup-cli
-```
-
-To skip automatic CLI installation, set the environment variable:
-```sh
-MXBAI_SKIP_CLI_INSTALL=true npm install @mixedbread/sdk
-```
-
-## Usage
+## Usage :)
 
 The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import Mixedbread from '@mixedbread/sdk';
+import EricCompositiontarr from 'eric-co';
 
-const client = new Mixedbread({
-  apiKey: process.env['MXBAI_API_KEY'], // This is the default and can be omitted
-  environment: 'local', // defaults to 'production'
+const client = new EricCompositiontarr({
+  apiKey: process.env['PETSTORE_API_KEY'], // This is the default and can be omitted
 });
 
-const vectorStore = await client.vectorStores.create();
+const order = await client.store.orders.create({ petId: 1, quantity: 1, status: 'placed' });
 
-console.log(vectorStore.id);
+console.log(order.id);
 ```
 
 ### Request & Response types
@@ -59,46 +40,16 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import Mixedbread from '@mixedbread/sdk';
+import EricCompositiontarr from 'eric-co';
 
-const client = new Mixedbread({
-  apiKey: process.env['MXBAI_API_KEY'], // This is the default and can be omitted
-  environment: 'local', // defaults to 'production'
+const client = new EricCompositiontarr({
+  apiKey: process.env['PETSTORE_API_KEY'], // This is the default and can be omitted
 });
 
-const vectorStore: Mixedbread.VectorStore = await client.vectorStores.create();
+const response: EricCompositiontarr.StoreInventoryResponse = await client.store.inventory();
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
-
-## File uploads
-
-Request parameters that correspond to file uploads can be passed in many different forms:
-
-- `File` (or an object with the same structure)
-- a `fetch` `Response` (or an object with the same structure)
-- an `fs.ReadStream`
-- the return value of our `toFile` helper
-
-```ts
-import fs from 'fs';
-import Mixedbread, { toFile } from '@mixedbread/sdk';
-
-const client = new Mixedbread();
-
-// If you have access to Node `fs` we recommend using `fs.createReadStream()`:
-await client.files.create({ file: fs.createReadStream('/path/to/file') });
-
-// Or if you have the web `File` API you can pass a `File` instance:
-await client.files.create({ file: new File(['my bytes'], 'file') });
-
-// You can also pass a `fetch` `Response`:
-await client.files.create({ file: await fetch('https://somesite/file') });
-
-// Finally, if none of the above are convenient, you can use our `toFile` helper:
-await client.files.create({ file: await toFile(Buffer.from('my bytes'), 'file') });
-await client.files.create({ file: await toFile(new Uint8Array([0, 1, 2]), 'file') });
-```
 
 ## Handling errors
 
@@ -108,8 +59,8 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const vectorStore = await client.vectorStores.create().catch(async (err) => {
-  if (err instanceof Mixedbread.APIError) {
+const response = await client.store.inventory().catch(async (err) => {
+  if (err instanceof EricCompositiontarr.APIError) {
     console.log(err.status); // 400
     console.log(err.name); // BadRequestError
     console.log(err.headers); // {server: 'nginx', ...}
@@ -143,12 +94,12 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const client = new Mixedbread({
+const client = new EricCompositiontarr({
   maxRetries: 0, // default is 2
 });
 
 // Or, configure per-request:
-await client.vectorStores.create({
+await client.store.inventory({
   maxRetries: 5,
 });
 ```
@@ -160,12 +111,12 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const client = new Mixedbread({
+const client = new EricCompositiontarr({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
 // Override per-request:
-await client.vectorStores.create({
+await client.store.inventory({
   timeout: 5 * 1000,
 });
 ```
@@ -173,37 +124,6 @@ await client.vectorStores.create({
 On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
-
-## Auto-pagination
-
-List methods in the Mixedbread API are paginated.
-You can use the `for await … of` syntax to iterate through items across all pages:
-
-```ts
-async function fetchAllVectorStores(params) {
-  const allVectorStores = [];
-  // Automatically fetches more pages as needed.
-  for await (const vectorStore of client.vectorStores.list()) {
-    allVectorStores.push(vectorStore);
-  }
-  return allVectorStores;
-}
-```
-
-Alternatively, you can request a single page at a time:
-
-```ts
-let page = await client.vectorStores.list();
-for (const vectorStore of page.data) {
-  console.log(vectorStore);
-}
-
-// Convenience methods are provided for manually paginating:
-while (page.hasNextPage()) {
-  page = await page.getNextPage();
-  // ...
-}
-```
 
 ## Advanced Usage
 
@@ -217,18 +137,18 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 
 <!-- prettier-ignore -->
 ```ts
-const client = new Mixedbread();
+const client = new EricCompositiontarr();
 
-const response = await client.vectorStores.create().asResponse();
+const response = await client.store.inventory().asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: vectorStore, response: raw } = await client.vectorStores.create().withResponse();
+const { data: response, response: raw } = await client.store.inventory().withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(vectorStore.id);
+console.log(response);
 ```
 
-### Logging
+### Logging :0
 
 > [!IMPORTANT]
 > All log messages are intended for debugging only. The format and content of log messages
@@ -238,13 +158,13 @@ console.log(vectorStore.id);
 
 The log level can be configured in two ways:
 
-1. Via the `MIXEDBREAD_LOG` environment variable
+1. Via the `ERIC_COMPOSITIONTARR_LOG` environment variable
 2. Using the `logLevel` client option (overrides the environment variable if set)
 
 ```ts
-import Mixedbread from '@mixedbread/sdk';
+import EricCompositiontarr from 'eric-co';
 
-const client = new Mixedbread({
+const client = new EricCompositiontarr({
   logLevel: 'debug', // Show all log messages
 });
 ```
@@ -270,13 +190,13 @@ When providing a custom logger, the `logLevel` option still controls which messa
 below the configured level will not be sent to your logger.
 
 ```ts
-import Mixedbread from '@mixedbread/sdk';
+import EricCompositiontarr from 'eric-co';
 import pino from 'pino';
 
 const logger = pino();
 
-const client = new Mixedbread({
-  logger: logger.child({ name: 'Mixedbread' }),
+const client = new EricCompositiontarr({
+  logger: logger.child({ name: 'EricCompositiontarr' }),
   logLevel: 'debug', // Send all messages to pino, allowing it to filter
 });
 ```
@@ -305,7 +225,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.vectorStores.create({
+client.store.orders.create({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
@@ -339,10 +259,10 @@ globalThis.fetch = fetch;
 Or pass it to the client:
 
 ```ts
-import Mixedbread from '@mixedbread/sdk';
+import EricCompositiontarr from 'eric-co';
 import fetch from 'my-fetch';
 
-const client = new Mixedbread({ fetch });
+const client = new EricCompositiontarr({ fetch });
 ```
 
 ### Fetch options
@@ -350,9 +270,9 @@ const client = new Mixedbread({ fetch });
 If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
 
 ```ts
-import Mixedbread from '@mixedbread/sdk';
+import EricCompositiontarr from 'eric-co';
 
-const client = new Mixedbread({
+const client = new EricCompositiontarr({
   fetchOptions: {
     // `RequestInit` options
   },
@@ -367,11 +287,11 @@ options to requests:
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
 
 ```ts
-import Mixedbread from '@mixedbread/sdk';
+import EricCompositiontarr from 'eric-co';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
-const client = new Mixedbread({
+const client = new EricCompositiontarr({
   fetchOptions: {
     dispatcher: proxyAgent,
   },
@@ -381,9 +301,9 @@ const client = new Mixedbread({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
 ```ts
-import Mixedbread from '@mixedbread/sdk';
+import EricCompositiontarr from 'eric-co';
 
-const client = new Mixedbread({
+const client = new EricCompositiontarr({
   fetchOptions: {
     proxy: 'http://localhost:8888',
   },
@@ -393,10 +313,10 @@ const client = new Mixedbread({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
 ```ts
-import Mixedbread from 'npm:@mixedbread/sdk';
+import EricCompositiontarr from 'npm:eric-co';
 
 const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
-const client = new Mixedbread({
+const client = new EricCompositiontarr({
   fetchOptions: {
     client: httpClient,
   },
@@ -415,7 +335,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/mixedbread-ai/mixedbread-ts/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks-staging/eric-co-typescript/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
