@@ -121,15 +121,19 @@ export class Pets extends APIResource {
    *
    * @example
    * ```ts
-   * const apiResponse = await client.pets.uploadImage(0);
+   * const apiResponse = await client.pets.uploadImage(
+   *   0,
+   *   fs.createReadStream('path/to/file'),
+   * );
    * ```
    */
   uploadImage(
     petID: number,
+    image: string | ArrayBuffer | ArrayBufferView | Blob | DataView,
     params: PetUploadImageParams | null | undefined = undefined,
     options?: RequestOptions,
   ): APIPromise<APIResponse> {
-    const { additionalMetadata, image } = params ?? {};
+    const { additionalMetadata } = params ?? {};
     return this._client.post(path`/pet/${petID}/uploadImage`, {
       query: { additionalMetadata },
       body: image,
@@ -275,11 +279,6 @@ export interface PetUploadImageParams {
    * Query param: Additional Metadata
    */
   additionalMetadata?: string;
-
-  /**
-   * Body param:
-   */
-  image?: string | ArrayBuffer | ArrayBufferView | Blob | DataView;
 }
 
 export declare namespace Pets {
