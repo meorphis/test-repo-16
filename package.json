@@ -1,12 +1,12 @@
 {
   "name": "eric-co",
   "version": "0.0.1-alpha.0",
-  "description": "The official TypeScript library for the Eric Compositiontar API",
-  "author": "Eric Compositiontar <dev-feedback@eric-co.com>",
+  "description": "The official TypeScript library for the Eric Compositiontarr API",
+  "author": "Eric Compositiontarr <dev-feedback@eric-co.com>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",
-  "repository": "github:meorphis/test-repo-16",
+  "repository": "github:stainless-sdks-staging/eric-co-typescript",
   "license": "Apache-2.0",
   "packageManager": "yarn@1.22.22",
   "files": [
