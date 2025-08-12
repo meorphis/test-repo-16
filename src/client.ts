@@ -11,79 +11,35 @@ import type { APIResponseProps } from './internal/parse';
 import { getPlatformHeaders } from './internal/detect-platform';
 import * as Shims from './internal/shims';
 import * as Opts from './internal/request-options';
+import * as qs from './internal/qs';
 import { VERSION } from './version';
 import * as Errors from './core/error';
-import * as Pagination from './core/pagination';
-import { AbstractPage, type LimitOffsetParams, LimitOffsetResponse } from './core/pagination';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
-import * as TopLevelAPI from './resources/top-level';
-import {
-  EmbedParams,
-  Embedding,
-  EmbeddingCreateResponse,
-  InfoResponse,
-  MultiEncodingEmbedding,
-  RerankParams,
-  RerankResponse,
-} from './resources/top-level';
 import { APIPromise } from './core/api-promise';
 import {
-  APIKey,
-  APIKeyCreateParams,
-  APIKeyCreated,
-  APIKeyDeleteResponse,
-  APIKeyListParams,
-  APIKeys,
-  APIKeysLimitOffset,
-} from './resources/api-keys';
-import { Chat, ChatCreateCompletionResponse } from './resources/chat';
-import { EmbeddingCreateParams, Embeddings, EncodingFormat, ObjectType } from './resources/embeddings';
+  APIResponse,
+  Pet,
+  PetCreateParams,
+  PetFindByStatusParams,
+  PetFindByStatusResponse,
+  PetFindByTagsParams,
+  PetFindByTagsResponse,
+  PetUpdateByIDParams,
+  PetUpdateParams,
+  PetUploadImageParams,
+  Pets,
+} from './resources/pets';
 import {
-  FileCreateParams,
-  FileDeleteResponse,
-  FileListParams,
-  FileObject,
-  FileObjectsLimitOffset,
-  FileUpdateParams,
-  Files,
-  PaginationWithTotal,
-} from './resources/files';
-import {
-  DataSource,
-  DataSourceCreateParams,
-  DataSourceDeleteResponse,
-  DataSourceListParams,
-  DataSourceOauth2Params,
-  DataSourceType,
-  DataSourceUpdateParams,
-  DataSources,
-  DataSourcesLimitOffset,
-  LinearDataSource,
-  NotionDataSource,
-  Oauth2Params,
-} from './resources/data-sources/data-sources';
-import { Extractions } from './resources/extractions/extractions';
-import { Parsing } from './resources/parsing/parsing';
-import {
-  ExpiresAfter,
-  ScoredAudioURLInputChunk,
-  ScoredImageURLInputChunk,
-  ScoredTextInputChunk,
-  ScoredVideoURLInputChunk,
-  VectorStore,
-  VectorStoreChunkSearchOptions,
-  VectorStoreCreateParams,
-  VectorStoreDeleteResponse,
-  VectorStoreListParams,
-  VectorStoreQuestionAnsweringParams,
-  VectorStoreQuestionAnsweringResponse,
-  VectorStoreSearchParams,
-  VectorStoreSearchResponse,
-  VectorStoreUpdateParams,
-  VectorStores,
-  VectorStoresLimitOffset,
-} from './resources/vector-stores/vector-stores';
+  User,
+  UserCreateParams,
+  UserCreateWithListParams,
+  UserLoginParams,
+  UserLoginResponse,
+  UserResource,
+  UserUpdateParams,
+} from './resources/user';
+import { Store, StoreInventoryResponse } from './resources/store/store';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -97,31 +53,16 @@ import {
 } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
 
-const environments = {
-  production: 'https://api.mixedbread.com',
-  local: 'http://127.0.0.1:8000',
-};
-type Environment = keyof typeof environments;
-
 export interface ClientOptions {
   /**
-   * Api key to authenticate with Mixedbread
+   * Defaults to process.env['PETSTORE_API_KEY'].
    */
   apiKey?: string | undefined;
 
   /**
-   * Specifies the environment to use for the API.
-   *
-   * Each environment maps to a different base URL:
-   * - `production` corresponds to `https://api.mixedbread.com`
-   * - `local` corresponds to `http://127.0.0.1:8000`
-   */
-  environment?: Environment | undefined;
-
-  /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['MIXEDBREAD_BASE_URL'].
+   * Defaults to process.env['ERIC_COMPOSITIONTARR_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -131,6 +72,8 @@ export interface ClientOptions {
    *
    * Note that request timeouts are retried by default, so in a worst-case scenario you may wait
    * much longer than this timeout before the promise succeeds or fails.
+   *
+   * @unit milliseconds
    */
   timeout?: number | undefined;
   /**
@@ -173,7 +116,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['MIXEDBREAD_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['ERIC_COMPOSITIONTARR_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -186,9 +129,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Mixedbread API.
+ * API Client for interfacing with the Eric Compositiontarr API.
  */
-export class Mixedbread {
+export class EricCompositiontarr {
   apiKey: string;
 
   baseURL: string;
@@ -204,11 +147,10 @@ export class Mixedbread {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Mixedbread API.
+   * API Client for interfacing with the Eric Compositiontarr API.
    *
-   * @param {string | undefined} [opts.apiKey=process.env['MXBAI_API_KEY'] ?? undefined]
-   * @param {Environment} [opts.environment=production] - Specifies the environment URL to use for the API.
-   * @param {string} [opts.baseURL=process.env['MIXEDBREAD_BASE_URL'] ?? https://api.mixedbread.com] - Override the default base URL for the API.
+   * @param {string | undefined} [opts.apiKey=process.env['PETSTORE_API_KEY'] ?? undefined]
+   * @param {string} [opts.baseURL=process.env['ERIC_COMPOSITIONTARR_BASE_URL'] ?? https://petstore3.swagger.io/api/v3] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -217,38 +159,31 @@ export class Mixedbread {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('MIXEDBREAD_BASE_URL'),
-    apiKey = readEnv('MXBAI_API_KEY'),
+    baseURL = readEnv('ERIC_COMPOSITIONTARR_BASE_URL'),
+    apiKey = readEnv('PETSTORE_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
-      throw new Errors.MixedbreadError(
-        "The MXBAI_API_KEY environment variable is missing or empty; either provide it, or instantiate the Mixedbread client with an apiKey option, like new Mixedbread({ apiKey: 'My API Key' }).",
+      throw new Errors.EricCompositiontarrError(
+        "The PETSTORE_API_KEY environment variable is missing or empty; either provide it, or instantiate the EricCompositiontarr client with an apiKey option, like new EricCompositiontarr({ apiKey: 'My API Key' }).",
       );
     }
 
     const options: ClientOptions = {
       apiKey,
       ...opts,
-      baseURL,
-      environment: opts.environment ?? 'production',
+      baseURL: baseURL || `https://petstore3.swagger.io/api/v3`,
     };
 
-    if (baseURL && opts.environment) {
-      throw new Errors.MixedbreadError(
-        'Ambiguous URL; The `baseURL` option (or MIXEDBREAD_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
-      );
-    }
-
-    this.baseURL = options.baseURL || environments[options.environment || 'production'];
-    this.timeout = options.timeout ?? Mixedbread.DEFAULT_TIMEOUT /* 1 minute */;
+    this.baseURL = options.baseURL!;
+    this.timeout = options.timeout ?? EricCompositiontarr.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('MIXEDBREAD_LOG'), "process.env['MIXEDBREAD_LOG']", this) ??
+      parseLogLevel(readEnv('ERIC_COMPOSITIONTARR_LOG'), "process.env['ERIC_COMPOSITIONTARR_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
@@ -264,10 +199,9 @@ export class Mixedbread {
    * Create a new client instance re-using the same options given to the current client with optional overriding.
    */
   withOptions(options: Partial<ClientOptions>): this {
-    return new (this.constructor as any as new (props: ClientOptions) => typeof this)({
+    const client = new (this.constructor as any as new (props: ClientOptions) => typeof this)({
       ...this._options,
-      environment: options.environment ? options.environment : undefined,
-      baseURL: options.environment ? undefined : this.baseURL,
+      baseURL: this.baseURL,
       maxRetries: this.maxRetries,
       timeout: this.timeout,
       logger: this.logger,
@@ -277,48 +211,14 @@ export class Mixedbread {
       apiKey: this.apiKey,
       ...options,
     });
+    return client;
   }
 
   /**
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== environments[this._options.environment || 'production'];
-  }
-
-  /**
-   * Create embeddings for text or images using the specified model, encoding format,
-   * and normalization.
-   *
-   * Args: params: The parameters for creating embeddings.
-   *
-   * Returns: EmbeddingCreateResponse: The response containing the embeddings.
-   */
-  embed(
-    body: TopLevelAPI.EmbedParams,
-    options?: RequestOptions,
-  ): APIPromise<TopLevelAPI.EmbeddingCreateResponse> {
-    return this.post('/v1/embeddings', { body, ...options });
-  }
-
-  /**
-   * Returns service information, including name and version.
-   *
-   * Returns: InfoResponse: A response containing the service name and version.
-   */
-  info(options?: RequestOptions): APIPromise<TopLevelAPI.InfoResponse> {
-    return this.get('/', options);
-  }
-
-  /**
-   * Rerank different kind of documents for a given query.
-   *
-   * Args: params: RerankParams: The parameters for reranking.
-   *
-   * Returns: RerankResponse: The reranked documents for the input query.
-   */
-  rerank(body: TopLevelAPI.RerankParams, options?: RequestOptions): APIPromise<TopLevelAPI.RerankResponse> {
-    return this.post('/v1/reranking', { body, ...options });
+    return this.baseURL !== 'https://petstore3.swagger.io/api/v3';
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -329,28 +229,12 @@ export class Mixedbread {
     return;
   }
 
-  protected authHeaders(opts: FinalRequestOptions): NullableHeaders | undefined {
-    return buildHeaders([{ Authorization: `Bearer ${this.apiKey}` }]);
+  protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
+    return buildHeaders([{ api_key: this.apiKey }]);
   }
 
-  /**
-   * Basic re-implementation of `qs.stringify` for primitive types.
-   */
   protected stringifyQuery(query: Record<string, unknown>): string {
-    return Object.entries(query)
-      .filter(([_, value]) => typeof value !== 'undefined')
-      .map(([key, value]) => {
-        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
-        }
-        if (value === null) {
-          return `${encodeURIComponent(key)}=`;
-        }
-        throw new Errors.MixedbreadError(
-          `Cannot stringify type ${typeof value}; Expected string, number, boolean, or null. If you need to pass nested query parameters, you can manually encode them, e.g. { query: { 'foo[key1]': value1, 'foo[key2]': value2 } }, and please open a GitHub issue requesting better support for your use case.`,
-        );
-      })
-      .join('&');
+    return qs.stringify(query, { arrayFormat: 'comma' });
   }
 
   private getUserAgent(): string {
@@ -461,7 +345,9 @@ export class Mixedbread {
 
     await this.prepareOptions(options);
 
-    const { req, url, timeout } = this.buildRequest(options, { retryCount: maxRetries - retriesRemaining });
+    const { req, url, timeout } = await this.buildRequest(options, {
+      retryCount: maxRetries - retriesRemaining,
+    });
 
     await this.prepareRequest(req, { url, options });
 
@@ -539,7 +425,7 @@ export class Mixedbread {
     } with status ${response.status} in ${headersTime - startTime}ms`;
 
     if (!response.ok) {
-      const shouldRetry = this.shouldRetry(response);
+      const shouldRetry = await this.shouldRetry(response);
       if (retriesRemaining && shouldRetry) {
         const retryMessage = `retrying, ${retriesRemaining} attempts remaining`;
 
@@ -603,25 +489,6 @@ export class Mixedbread {
     return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
   }
 
-  getAPIList<Item, PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>>(
-    path: string,
-    Page: new (...args: any[]) => PageClass,
-    opts?: RequestOptions,
-  ): Pagination.PagePromise<PageClass, Item> {
-    return this.requestAPIList(Page, { method: 'get', path, ...opts });
-  }
-
-  requestAPIList<
-    Item = unknown,
-    PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>,
-  >(
-    Page: new (...args: ConstructorParameters<typeof Pagination.AbstractPage>) => PageClass,
-    options: FinalRequestOptions,
-  ): Pagination.PagePromise<PageClass, Item> {
-    const request = this.makeRequest(options, null, undefined);
-    return new Pagination.PagePromise<PageClass, Item>(this as any as Mixedbread, request, Page);
-  }
-
   async fetchWithTimeout(
     url: RequestInfo,
     init: RequestInit | undefined,
@@ -657,7 +524,7 @@ export class Mixedbread {
     }
   }
 
-  private shouldRetry(response: Response): boolean {
+  private async shouldRetry(response: Response): Promise<boolean> {
     // Note this is not a standard header.
     const shouldRetryHeader = response.headers.get('x-should-retry');
 
@@ -734,10 +601,10 @@ export class Mixedbread {
     return sleepSeconds * jitter * 1000;
   }
 
-  buildRequest(
+  async buildRequest(
     inputOptions: FinalRequestOptions,
     { retryCount = 0 }: { retryCount?: number } = {},
-  ): { req: FinalizedRequestInit; url: string; timeout: number } {
+  ): Promise<{ req: FinalizedRequestInit; url: string; timeout: number }> {
     const options = { ...inputOptions };
     const { method, path, query, defaultBaseURL } = options;
 
@@ -745,7 +612,7 @@ export class Mixedbread {
     if ('timeout' in options) validatePositiveInteger('timeout', options.timeout);
     options.timeout = options.timeout ?? this.timeout;
     const { bodyHeaders, body } = this.buildBody({ options });
-    const reqHeaders = this.buildHeaders({ options: inputOptions, method, bodyHeaders, retryCount });
+    const reqHeaders = await this.buildHeaders({ options: inputOptions, method, bodyHeaders, retryCount });
 
     const req: FinalizedRequestInit = {
       method,
@@ -761,7 +628,7 @@ export class Mixedbread {
     return { req, url, timeout: options.timeout };
   }
 
-  private buildHeaders({
+  private async buildHeaders({
     options,
     method,
     bodyHeaders,
@@ -771,7 +638,7 @@ export class Mixedbread {
     method: HTTPMethod;
     bodyHeaders: HeadersLike;
     retryCount: number;
-  }): Headers {
+  }): Promise<Headers> {
     let idempotencyHeaders: HeadersLike = {};
     if (this.idempotencyHeader && method !== 'get') {
       if (!options.idempotencyKey) options.idempotencyKey = this.defaultIdempotencyKey();
@@ -787,7 +654,7 @@ export class Mixedbread {
         ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
         ...getPlatformHeaders(),
       },
-      this.authHeaders(options),
+      await this.authHeaders(options),
       this._options.defaultHeaders,
       bodyHeaders,
       options.headers,
@@ -835,10 +702,10 @@ export class Mixedbread {
     }
   }
 
-  static Mixedbread = this;
+  static EricCompositiontarr = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static MixedbreadError = Errors.MixedbreadError;
+  static EricCompositiontarrError = Errors.EricCompositiontarrError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -854,109 +721,41 @@ export class Mixedbread {
 
   static toFile = Uploads.toFile;
 
-  vectorStores: API.VectorStores = new API.VectorStores(this);
-  parsing: API.Parsing = new API.Parsing(this);
-  files: API.Files = new API.Files(this);
-  extractions: API.Extractions = new API.Extractions(this);
-  embeddings: API.Embeddings = new API.Embeddings(this);
-  dataSources: API.DataSources = new API.DataSources(this);
-  apiKeys: API.APIKeys = new API.APIKeys(this);
-  chat: API.Chat = new API.Chat(this);
+  pets: API.Pets = new API.Pets(this);
+  store: API.Store = new API.Store(this);
+  user: API.UserResource = new API.UserResource(this);
 }
-Mixedbread.VectorStores = VectorStores;
-Mixedbread.Parsing = Parsing;
-Mixedbread.Files = Files;
-Mixedbread.Extractions = Extractions;
-Mixedbread.Embeddings = Embeddings;
-Mixedbread.DataSources = DataSources;
-Mixedbread.APIKeys = APIKeys;
-Mixedbread.Chat = Chat;
-export declare namespace Mixedbread {
+EricCompositiontarr.Pets = Pets;
+EricCompositiontarr.Store = Store;
+EricCompositiontarr.UserResource = UserResource;
+export declare namespace EricCompositiontarr {
   export type RequestOptions = Opts.RequestOptions;
 
-  export import LimitOffset = Pagination.LimitOffset;
-  export { type LimitOffsetParams as LimitOffsetParams, type LimitOffsetResponse as LimitOffsetResponse };
-
   export {
-    type Embedding as Embedding,
-    type EmbeddingCreateResponse as EmbeddingCreateResponse,
-    type MultiEncodingEmbedding as MultiEncodingEmbedding,
-    type InfoResponse as InfoResponse,
-    type RerankResponse as RerankResponse,
-    type EmbedParams as EmbedParams,
-    type RerankParams as RerankParams,
+    Pets as Pets,
+    type APIResponse as APIResponse,
+    type Pet as Pet,
+    type PetFindByStatusResponse as PetFindByStatusResponse,
+    type PetFindByTagsResponse as PetFindByTagsResponse,
+    type PetCreateParams as PetCreateParams,
+    type PetUpdateParams as PetUpdateParams,
+    type PetFindByStatusParams as PetFindByStatusParams,
+    type PetFindByTagsParams as PetFindByTagsParams,
+    type PetUpdateByIDParams as PetUpdateByIDParams,
+    type PetUploadImageParams as PetUploadImageParams,
   };
 
-  export {
-    VectorStores as VectorStores,
-    type ExpiresAfter as ExpiresAfter,
-    type ScoredAudioURLInputChunk as ScoredAudioURLInputChunk,
-    type ScoredImageURLInputChunk as ScoredImageURLInputChunk,
-    type ScoredTextInputChunk as ScoredTextInputChunk,
-    type ScoredVideoURLInputChunk as ScoredVideoURLInputChunk,
-    type VectorStore as VectorStore,
-    type VectorStoreChunkSearchOptions as VectorStoreChunkSearchOptions,
-    type VectorStoreDeleteResponse as VectorStoreDeleteResponse,
-    type VectorStoreQuestionAnsweringResponse as VectorStoreQuestionAnsweringResponse,
-    type VectorStoreSearchResponse as VectorStoreSearchResponse,
-    type VectorStoresLimitOffset as VectorStoresLimitOffset,
-    type VectorStoreCreateParams as VectorStoreCreateParams,
-    type VectorStoreUpdateParams as VectorStoreUpdateParams,
-    type VectorStoreListParams as VectorStoreListParams,
-    type VectorStoreQuestionAnsweringParams as VectorStoreQuestionAnsweringParams,
-    type VectorStoreSearchParams as VectorStoreSearchParams,
-  };
-
-  export { Parsing as Parsing };
+  export { Store as Store, type StoreInventoryResponse as StoreInventoryResponse };
 
   export {
-    Files as Files,
-    type FileObject as FileObject,
-    type PaginationWithTotal as PaginationWithTotal,
-    type FileDeleteResponse as FileDeleteResponse,
-    type FileObjectsLimitOffset as FileObjectsLimitOffset,
-    type FileCreateParams as FileCreateParams,
-    type FileUpdateParams as FileUpdateParams,
-    type FileListParams as FileListParams,
+    UserResource as UserResource,
+    type User as User,
+    type UserLoginResponse as UserLoginResponse,
+    type UserCreateParams as UserCreateParams,
+    type UserUpdateParams as UserUpdateParams,
+    type UserCreateWithListParams as UserCreateWithListParams,
+    type UserLoginParams as UserLoginParams,
   };
 
-  export { Extractions as Extractions };
-
-  export {
-    Embeddings as Embeddings,
-    type EncodingFormat as EncodingFormat,
-    type ObjectType as ObjectType,
-    type EmbeddingCreateParams as EmbeddingCreateParams,
-  };
-
-  export {
-    DataSources as DataSources,
-    type DataSource as DataSource,
-    type DataSourceOauth2Params as DataSourceOauth2Params,
-    type DataSourceType as DataSourceType,
-    type LinearDataSource as LinearDataSource,
-    type NotionDataSource as NotionDataSource,
-    type Oauth2Params as Oauth2Params,
-    type DataSourceDeleteResponse as DataSourceDeleteResponse,
-    type DataSourcesLimitOffset as DataSourcesLimitOffset,
-    type DataSourceCreateParams as DataSourceCreateParams,
-    type DataSourceUpdateParams as DataSourceUpdateParams,
-    type DataSourceListParams as DataSourceListParams,
-  };
-
-  export {
-    APIKeys as APIKeys,
-    type APIKey as APIKey,
-    type APIKeyCreated as APIKeyCreated,
-    type APIKeyDeleteResponse as APIKeyDeleteResponse,
-    type APIKeysLimitOffset as APIKeysLimitOffset,
-    type APIKeyCreateParams as APIKeyCreateParams,
-    type APIKeyListParams as APIKeyListParams,
-  };
-
-  export { Chat as Chat, type ChatCreateCompletionResponse as ChatCreateCompletionResponse };
-
-  export type SearchFilter = API.SearchFilter;
-  export type SearchFilterCondition = API.SearchFilterCondition;
-  export type Usage = API.Usage;
+  export type Order = API.Order;
 }

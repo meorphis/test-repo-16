@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { hasOwn } from './values';
-import { type Mixedbread } from '../../client';
+import { type EricCompositiontarr } from '../../client';
 import { RequestOptions } from '../request-options';
 
 type LogFn = (message: string, ...rest: unknown[]) => void;
@@ -24,7 +24,7 @@ const levelNumbers = {
 export const parseLogLevel = (
   maybeLevel: string | undefined,
   sourceName: string,
-  client: Mixedbread,
+  client: EricCompositiontarr,
 ): LogLevel | undefined => {
   if (!maybeLevel) {
     return undefined;
@@ -58,9 +58,9 @@ const noopLogger = {
   debug: noop,
 };
 
-let cachedLoggers = /** @__PURE__ */ new WeakMap<Logger, [LogLevel, Logger]>();
+let cachedLoggers = /* @__PURE__ */ new WeakMap<Logger, [LogLevel, Logger]>();
 
-export function loggerFor(client: Mixedbread): Logger {
+export function loggerFor(client: EricCompositiontarr): Logger {
   const logger = client.logger;
   const logLevel = client.logLevel ?? 'off';
   if (!logger) {
@@ -106,6 +106,7 @@ export const formatRequestDetails = (details: {
         ([name, value]) => [
           name,
           (
+            name.toLowerCase() === 'api_key' ||
             name.toLowerCase() === 'authorization' ||
             name.toLowerCase() === 'cookie' ||
             name.toLowerCase() === 'set-cookie'

@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from '@mixedbread/sdk/core/api-promise';
+import { APIPromise } from 'eric-co/core/api-promise';
 
 import util from 'node:util';
-import Mixedbread from '@mixedbread/sdk';
-import { APIUserAbortError } from '@mixedbread/sdk';
+import EricCompositiontarr from 'eric-co';
+import { APIUserAbortError } from 'eric-co';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {
@@ -20,19 +20,19 @@ describe('instantiate client', () => {
   });
 
   describe('defaultHeaders', () => {
-    const client = new Mixedbread({
+    const client = new EricCompositiontarr({
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
       apiKey: 'My API Key',
     });
 
-    test('they are used in the request', () => {
-      const { req } = client.buildRequest({ path: '/foo', method: 'post' });
+    test('they are used in the request', async () => {
+      const { req } = await client.buildRequest({ path: '/foo', method: 'post' });
       expect(req.headers.get('x-my-default-header')).toEqual('2');
     });
 
-    test('can ignore `undefined` and leave the default', () => {
-      const { req } = client.buildRequest({
+    test('can ignore `undefined` and leave the default', async () => {
+      const { req } = await client.buildRequest({
         path: '/foo',
         method: 'post',
         headers: { 'X-My-Default-Header': undefined },
@@ -40,8 +40,8 @@ describe('instantiate client', () => {
       expect(req.headers.get('x-my-default-header')).toEqual('2');
     });
 
-    test('can be removed with `null`', () => {
-      const { req } = client.buildRequest({
+    test('can be removed with `null`', async () => {
+      const { req } = await client.buildRequest({
         path: '/foo',
         method: 'post',
         headers: { 'X-My-Default-Header': null },
@@ -54,14 +54,14 @@ describe('instantiate client', () => {
 
     beforeEach(() => {
       process.env = { ...env };
-      process.env['MIXEDBREAD_LOG'] = undefined;
+      process.env['ERIC_COMPOSITIONTARR_LOG'] = undefined;
     });
 
     afterEach(() => {
       process.env = env;
     });
 
-    const forceAPIResponseForClient = async (client: Mixedbread) => {
+    const forceAPIResponseForClient = async (client: EricCompositiontarr) => {
       await new APIPromise(
         client,
         Promise.resolve({
@@ -87,14 +87,14 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new Mixedbread({ logger: logger, logLevel: 'debug', apiKey: 'My API Key' });
+      const client = new EricCompositiontarr({ logger: logger, logLevel: 'debug', apiKey: 'My API Key' });
 
       await forceAPIResponseForClient(client);
       expect(debugMock).toHaveBeenCalled();
     });
 
     test('default logLevel is warn', async () => {
-      const client = new Mixedbread({ apiKey: 'My API Key' });
+      const client = new EricCompositiontarr({ apiKey: 'My API Key' });
       expect(client.logLevel).toBe('warn');
     });
 
@@ -107,7 +107,7 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new Mixedbread({ logger: logger, logLevel: 'info', apiKey: 'My API Key' });
+      const client = new EricCompositiontarr({ logger: logger, logLevel: 'info', apiKey: 'My API Key' });
 
       await forceAPIResponseForClient(client);
       expect(debugMock).not.toHaveBeenCalled();
@@ -122,8 +122,8 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['MIXEDBREAD_LOG'] = 'debug';
-      const client = new Mixedbread({ logger: logger, apiKey: 'My API Key' });
+      process.env['ERIC_COMPOSITIONTARR_LOG'] = 'debug';
+      const client = new EricCompositiontarr({ logger: logger, apiKey: 'My API Key' });
       expect(client.logLevel).toBe('debug');
 
       await forceAPIResponseForClient(client);
@@ -139,11 +139,11 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['MIXEDBREAD_LOG'] = 'not a log level';
-      const client = new Mixedbread({ logger: logger, apiKey: 'My API Key' });
+      process.env['ERIC_COMPOSITIONTARR_LOG'] = 'not a log level';
+      const client = new EricCompositiontarr({ logger: logger, apiKey: 'My API Key' });
       expect(client.logLevel).toBe('warn');
       expect(warnMock).toHaveBeenCalledWith(
-        'process.env[\'MIXEDBREAD_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
+        'process.env[\'ERIC_COMPOSITIONTARR_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
       );
     });
 
@@ -156,8 +156,8 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['MIXEDBREAD_LOG'] = 'debug';
-      const client = new Mixedbread({ logger: logger, logLevel: 'off', apiKey: 'My API Key' });
+      process.env['ERIC_COMPOSITIONTARR_LOG'] = 'debug';
+      const client = new EricCompositiontarr({ logger: logger, logLevel: 'off', apiKey: 'My API Key' });
 
       await forceAPIResponseForClient(client);
       expect(debugMock).not.toHaveBeenCalled();
@@ -172,8 +172,8 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      process.env['MIXEDBREAD_LOG'] = 'not a log level';
-      const client = new Mixedbread({ logger: logger, logLevel: 'debug', apiKey: 'My API Key' });
+      process.env['ERIC_COMPOSITIONTARR_LOG'] = 'not a log level';
+      const client = new EricCompositiontarr({ logger: logger, logLevel: 'debug', apiKey: 'My API Key' });
       expect(client.logLevel).toBe('debug');
       expect(warnMock).not.toHaveBeenCalled();
     });
@@ -181,7 +181,7 @@ describe('instantiate client', () => {
 
   describe('defaultQuery', () => {
     test('with null query params given', () => {
-      const client = new Mixedbread({
+      const client = new EricCompositiontarr({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo' },
         apiKey: 'My API Key',
@@ -190,7 +190,7 @@ describe('instantiate client', () => {
     });
 
     test('multiple default query params', () => {
-      const client = new Mixedbread({
+      const client = new EricCompositiontarr({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
         apiKey: 'My API Key',
@@ -199,7 +199,7 @@ describe('instantiate client', () => {
     });
 
     test('overriding with `undefined`', () => {
-      const client = new Mixedbread({
+      const client = new EricCompositiontarr({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { hello: 'world' },
         apiKey: 'My API Key',
@@ -209,7 +209,7 @@ describe('instantiate client', () => {
   });
 
   test('custom fetch', async () => {
-    const client = new Mixedbread({
+    const client = new EricCompositiontarr({
       baseURL: 'http://localhost:5000/',
       apiKey: 'My API Key',
       fetch: (url) => {
@@ -227,7 +227,7 @@ describe('instantiate client', () => {
 
   test('explicit global fetch', async () => {
     // make sure the global fetch type is assignable to our Fetch type
-    const client = new Mixedbread({
+    const client = new EricCompositiontarr({
       baseURL: 'http://localhost:5000/',
       apiKey: 'My API Key',
       fetch: defaultFetch,
@@ -235,7 +235,7 @@ describe('instantiate client', () => {
   });
 
   test('custom signal', async () => {
-    const client = new Mixedbread({
+    const client = new EricCompositiontarr({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
       apiKey: 'My API Key',
       fetch: (...args) => {
@@ -267,7 +267,7 @@ describe('instantiate client', () => {
       return new Response(JSON.stringify({}), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Mixedbread({
+    const client = new EricCompositiontarr({
       baseURL: 'http://localhost:5000/',
       apiKey: 'My API Key',
       fetch: testFetch,
@@ -279,72 +279,68 @@ describe('instantiate client', () => {
 
   describe('baseUrl', () => {
     test('trailing slash', () => {
-      const client = new Mixedbread({ baseURL: 'http://localhost:5000/custom/path/', apiKey: 'My API Key' });
+      const client = new EricCompositiontarr({
+        baseURL: 'http://localhost:5000/custom/path/',
+        apiKey: 'My API Key',
+      });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
     test('no trailing slash', () => {
-      const client = new Mixedbread({ baseURL: 'http://localhost:5000/custom/path', apiKey: 'My API Key' });
+      const client = new EricCompositiontarr({
+        baseURL: 'http://localhost:5000/custom/path',
+        apiKey: 'My API Key',
+      });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
     afterEach(() => {
-      process.env['MIXEDBREAD_BASE_URL'] = undefined;
+      process.env['ERIC_COMPOSITIONTARR_BASE_URL'] = undefined;
     });
 
     test('explicit option', () => {
-      const client = new Mixedbread({ baseURL: 'https://example.com', apiKey: 'My API Key' });
+      const client = new EricCompositiontarr({ baseURL: 'https://example.com', apiKey: 'My API Key' });
       expect(client.baseURL).toEqual('https://example.com');
     });
 
     test('env variable', () => {
-      process.env['MIXEDBREAD_BASE_URL'] = 'https://example.com/from_env';
-      const client = new Mixedbread({ apiKey: 'My API Key' });
+      process.env['ERIC_COMPOSITIONTARR_BASE_URL'] = 'https://example.com/from_env';
+      const client = new EricCompositiontarr({ apiKey: 'My API Key' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
-      process.env['MIXEDBREAD_BASE_URL'] = ''; // empty
-      const client = new Mixedbread({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('https://api.mixedbread.com');
+      process.env['ERIC_COMPOSITIONTARR_BASE_URL'] = ''; // empty
+      const client = new EricCompositiontarr({ apiKey: 'My API Key' });
+      expect(client.baseURL).toEqual('https://petstore3.swagger.io/api/v3');
     });
 
     test('blank env variable', () => {
-      process.env['MIXEDBREAD_BASE_URL'] = '  '; // blank
-      const client = new Mixedbread({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('https://api.mixedbread.com');
-    });
-
-    test('env variable with environment', () => {
-      process.env['MIXEDBREAD_BASE_URL'] = 'https://example.com/from_env';
-
-      expect(
-        () => new Mixedbread({ apiKey: 'My API Key', environment: 'production' }),
-      ).toThrowErrorMatchingInlineSnapshot(
-        `"Ambiguous URL; The \`baseURL\` option (or MIXEDBREAD_BASE_URL env var) and the \`environment\` option are given. If you want to use the environment you must pass baseURL: null"`,
-      );
-
-      const client = new Mixedbread({ apiKey: 'My API Key', baseURL: null, environment: 'production' });
-      expect(client.baseURL).toEqual('https://api.mixedbread.com');
+      process.env['ERIC_COMPOSITIONTARR_BASE_URL'] = '  '; // blank
+      const client = new EricCompositiontarr({ apiKey: 'My API Key' });
+      expect(client.baseURL).toEqual('https://petstore3.swagger.io/api/v3');
     });
 
     test('in request options', () => {
-      const client = new Mixedbread({ apiKey: 'My API Key' });
+      const client = new EricCompositiontarr({ apiKey: 'My API Key' });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/option/foo',
       );
     });
 
     test('in request options overridden by client options', () => {
-      const client = new Mixedbread({ apiKey: 'My API Key', baseURL: 'http://localhost:5000/client' });
+      const client = new EricCompositiontarr({
+        apiKey: 'My API Key',
+        baseURL: 'http://localhost:5000/client',
+      });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/client/foo',
       );
     });
 
     test('in request options overridden by env variable', () => {
-      process.env['MIXEDBREAD_BASE_URL'] = 'http://localhost:5000/env';
-      const client = new Mixedbread({ apiKey: 'My API Key' });
+      process.env['ERIC_COMPOSITIONTARR_BASE_URL'] = 'http://localhost:5000/env';
+      const client = new EricCompositiontarr({ apiKey: 'My API Key' });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/env/foo',
       );
@@ -352,17 +348,17 @@ describe('instantiate client', () => {
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new Mixedbread({ maxRetries: 4, apiKey: 'My API Key' });
+    const client = new EricCompositiontarr({ maxRetries: 4, apiKey: 'My API Key' });
     expect(client.maxRetries).toEqual(4);
 
     // default
-    const client2 = new Mixedbread({ apiKey: 'My API Key' });
+    const client2 = new EricCompositiontarr({ apiKey: 'My API Key' });
     expect(client2.maxRetries).toEqual(2);
   });
 
   describe('withOptions', () => {
-    test('creates a new client with overridden options', () => {
-      const client = new Mixedbread({
+    test('creates a new client with overridden options', async () => {
+      const client = new EricCompositiontarr({
         baseURL: 'http://localhost:5000/',
         maxRetries: 3,
         apiKey: 'My API Key',
@@ -386,8 +382,8 @@ describe('instantiate client', () => {
       expect(newClient.constructor).toBe(client.constructor);
     });
 
-    test('inherits options from the parent client', () => {
-      const client = new Mixedbread({
+    test('inherits options from the parent client', async () => {
+      const client = new EricCompositiontarr({
         baseURL: 'http://localhost:5000/',
         defaultHeaders: { 'X-Test-Header': 'test-value' },
         defaultQuery: { 'test-param': 'test-value' },
@@ -401,12 +397,12 @@ describe('instantiate client', () => {
       // Test inherited options remain the same
       expect(newClient.buildURL('/foo', null)).toEqual('http://localhost:5001/foo?test-param=test-value');
 
-      const { req } = newClient.buildRequest({ path: '/foo', method: 'get' });
+      const { req } = await newClient.buildRequest({ path: '/foo', method: 'get' });
       expect(req.headers.get('x-test-header')).toEqual('test-value');
     });
 
     test('respects runtime property changes when creating new client', () => {
-      const client = new Mixedbread({
+      const client = new EricCompositiontarr({
         baseURL: 'http://localhost:5000/',
         timeout: 1000,
         apiKey: 'My API Key',
@@ -438,25 +434,25 @@ describe('instantiate client', () => {
 
   test('with environment variable arguments', () => {
     // set options via env var
-    process.env['MXBAI_API_KEY'] = 'My API Key';
-    const client = new Mixedbread();
+    process.env['PETSTORE_API_KEY'] = 'My API Key';
+    const client = new EricCompositiontarr();
     expect(client.apiKey).toBe('My API Key');
   });
 
   test('with overridden environment variable arguments', () => {
     // set options via env var
-    process.env['MXBAI_API_KEY'] = 'another My API Key';
-    const client = new Mixedbread({ apiKey: 'My API Key' });
+    process.env['PETSTORE_API_KEY'] = 'another My API Key';
+    const client = new EricCompositiontarr({ apiKey: 'My API Key' });
     expect(client.apiKey).toBe('My API Key');
   });
 });
 
 describe('request building', () => {
-  const client = new Mixedbread({ apiKey: 'My API Key' });
+  const client = new EricCompositiontarr({ apiKey: 'My API Key' });
 
   describe('custom headers', () => {
-    test('handles undefined', () => {
-      const { req } = client.buildRequest({
+    test('handles undefined', async () => {
+      const { req } = await client.buildRequest({
         path: '/foo',
         method: 'post',
         body: { value: 'hello' },
@@ -471,7 +467,7 @@ describe('request building', () => {
 });
 
 describe('default encoder', () => {
-  const client = new Mixedbread({ apiKey: 'My API Key' });
+  const client = new EricCompositiontarr({ apiKey: 'My API Key' });
 
   class Serializable {
     toJSON() {
@@ -491,8 +487,8 @@ describe('default encoder', () => {
     }
   }
   for (const jsonValue of [{}, [], { __proto__: null }, new Serializable(), new Collection(['item'])]) {
-    test(`serializes ${util.inspect(jsonValue)} as json`, () => {
-      const { req } = client.buildRequest({
+    test(`serializes ${util.inspect(jsonValue)} as json`, async () => {
+      const { req } = await client.buildRequest({
         path: '/foo',
         method: 'post',
         body: jsonValue,
@@ -515,7 +511,7 @@ describe('default encoder', () => {
     asyncIterable,
   ]) {
     test(`converts ${util.inspect(streamValue)} to ReadableStream`, async () => {
-      const { req } = client.buildRequest({
+      const { req } = await client.buildRequest({
         path: '/foo',
         method: 'post',
         body: streamValue,
@@ -528,7 +524,7 @@ describe('default encoder', () => {
   }
 
   test(`can set content-type for ReadableStream`, async () => {
-    const { req } = client.buildRequest({
+    const { req } = await client.buildRequest({
       path: '/foo',
       method: 'post',
       body: new Response('a\nb\nc\n').body,
@@ -556,7 +552,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Mixedbread({ apiKey: 'My API Key', timeout: 10, fetch: testFetch });
+    const client = new EricCompositiontarr({ apiKey: 'My API Key', timeout: 10, fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -586,7 +582,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Mixedbread({ apiKey: 'My API Key', fetch: testFetch, maxRetries: 4 });
+    const client = new EricCompositiontarr({ apiKey: 'My API Key', fetch: testFetch, maxRetries: 4 });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
 
@@ -610,7 +606,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Mixedbread({ apiKey: 'My API Key', fetch: testFetch, maxRetries: 4 });
+    const client = new EricCompositiontarr({ apiKey: 'My API Key', fetch: testFetch, maxRetries: 4 });
 
     expect(
       await client.request({
@@ -639,7 +635,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Mixedbread({
+    const client = new EricCompositiontarr({
       apiKey: 'My API Key',
       fetch: testFetch,
       maxRetries: 4,
@@ -672,7 +668,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Mixedbread({ apiKey: 'My API Key', fetch: testFetch, maxRetries: 4 });
+    const client = new EricCompositiontarr({ apiKey: 'My API Key', fetch: testFetch, maxRetries: 4 });
 
     expect(
       await client.request({
@@ -702,7 +698,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Mixedbread({ apiKey: 'My API Key', fetch: testFetch });
+    const client = new EricCompositiontarr({ apiKey: 'My API Key', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -732,7 +728,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Mixedbread({ apiKey: 'My API Key', fetch: testFetch });
+    const client = new EricCompositiontarr({ apiKey: 'My API Key', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);

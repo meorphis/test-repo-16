@@ -42,25 +42,25 @@ If you’d like to use the repository from source, you can either install from g
 To install via git:
 
 ```sh
-$ npm install git+ssh://git@github.com:mixedbread-ai/mixedbread-ts.git
+$ npm install git+ssh://git@github.com:meorphis/test-repo-16.git
 ```
 
 Alternatively, to link a local copy of the repo:
 
 ```sh
 # Clone
-$ git clone https://www.github.com/mixedbread-ai/mixedbread-ts
-$ cd mixedbread-ts
+$ git clone https://www.github.com/meorphis/test-repo-16
+$ cd test-repo-16
 
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link @mixedbread/sdk
+$ yarn link eric-co
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global @mixedbread/sdk
+$ pnpm link -—global eric-co
 ```
 
 ## Running tests
@@ -91,17 +91,3 @@ To format and fix all lint issues automatically:
 ```sh
 $ yarn fix
 ```
-
-## Publishing and releases
-
-Changes made to this repository via the automated release PR pipeline should publish to npm automatically. If
-the changes aren't made through the automated pipeline, you may want to make releases manually.
-
-### Publish with a GitHub workflow
-
-You can release to package managers by using [the `Publish NPM` GitHub action](https://www.github.com/mixedbread-ai/mixedbread-ts/actions/workflows/publish-npm.yml). This requires a setup organization or repository secret to be set up.
-
-### Publish manually
-
-If you need to manually release a package, you can run the `bin/publish-npm` script with an `NPM_TOKEN` set on
-the environment.

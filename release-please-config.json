@@ -1,13 +1,10 @@
 {
   "packages": {
-    ".": {},
-    "packages/cli": {
-      "package-name": "@mixedbread/cli"
-    }
+    ".": {}
   },
   "$schema": "https://raw.githubusercontent.com/stainless-api/release-please/main/schemas/config.json",
   "include-v-in-tag": true,
-  "include-component-in-tag": true,
+  "include-component-in-tag": false,
   "versioning": "prerelease",
   "prerelease": true,
   "bump-minor-pre-major": true,
@@ -63,14 +60,5 @@
     }
   ],
   "release-type": "node",
-  "extra-files": [
-    "src/version.ts",
-    "README.md",
-    "packages/mcp-server/yarn.lock",
-    {
-      "type": "json",
-      "path": "packages/mcp-server/package.json",
-      "jsonpath": "$.version"
-    }
-  ]
+  "extra-files": ["src/version.ts", "README.md"]
 }

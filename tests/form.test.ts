@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from '@mixedbread/sdk/internal/uploads';
-import { toFile } from '@mixedbread/sdk/core/uploads';
+import { multipartFormRequestOptions, createForm } from 'eric-co/internal/uploads';
+import { toFile } from 'eric-co/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {
