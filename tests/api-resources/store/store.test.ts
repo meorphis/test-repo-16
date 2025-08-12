@@ -8,7 +8,7 @@ const client = new EricCompositiontarr({
 });
 
 describe('resource store', () => {
-  // skipped: tests are disabled for the time being
+  // Prism tests are disabled
   test.skip('inventory', async () => {
     const responsePromise = client.store.inventory();
     const rawResponse = await responsePromise.asResponse();
